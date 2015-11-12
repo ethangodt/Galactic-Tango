@@ -1,5 +1,4 @@
 var Snake = require('./Snake');
-var socket = require('./socketServerInterface');
 
 var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
   this.initSize = initSize || 3;
@@ -9,7 +8,6 @@ var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
   this.sizeX = sizeX;
   this.sizeY = sizeY;
   this.init();
-  setInterval(this.tick.bind(this), 1000);
 };
 
 Gameboard.prototype.init = function() {
@@ -57,27 +55,22 @@ function arrayEqual (arr1, arr2) {
 
 
 Gameboard.prototype.tick = function() {
-  if (this.players){
 
     this.players.forEach(function (snake) {
       snake.move();
     });
-  console.log(this.checkCollission())
-  socket.updateClients(
-    {
-      snakes: [{
-        location:this.getSnakes()[0],
+  var gameData = this.getSnakes();
+  return {
+    snakes:[{
+        location:gameData[0],
         id:0
       },
       {
-        location:this.getSnakes()[1],
+        location:gameData[1],
         id:1
-      }
-      ],
-      collission:this.checkCollission()
-    })
-  }
-  console.log(this.getSnakes());
+      }],
+    collission:this.checkCollission()
+    }
 };
 
 Gameboard.prototype.changeDir = function ( playerNum, dir ) {
@@ -89,10 +82,8 @@ Gameboard.prototype.dropApple = function(x ,y) {
 };
 
 
-module.exports = function (){
-  var gameboard = new Gameboard (2 , 10, 10, 2);
-  
-};
+module.exports = Gameboard;
+
 // gameboard.changeDir(0,'up')
 // gameboard.changeDir(1,'up')
 // gameboard.tick();

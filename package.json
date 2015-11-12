@@ -25,5 +25,9 @@
   "homepage": "https://github.com/Galactic-Tango/Galactic-Tango#readme",
   "devDependencies": {
     "bower": "^1.6.5"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "socket.io": "^1.3.7"
   }
 }

@@ -1,7 +1,8 @@
 // get id from this to make rooms
 var socket = io('http://localhost:8080');
 
-// socket.on('update', board.updateBoard);
+socket.on('update', app.board.updateBoard.bind(app.board));
+
 
 socket.on('gameOver', function (scores) {console.log(scores)});
 

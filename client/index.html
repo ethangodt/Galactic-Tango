@@ -3,18 +3,20 @@
 <head>
   <link rel="stylesheet" href="styles/main.css"/>
   <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
-  <script src="socketClient.js"></script>
-  <script src="board layout.js"></script>
 </head>
 <body>
   <div class="page">
     <nav>
       <h1 class="logo">GALACTIC TANGO</h1>
-      <button>Ready</button>
+      <button id="readyButton">Ready</button>
     </nav>
     <div class="boardContainer">
       <canvas class="gameBoard"></canvas>
     </div>
   </div>
+  <script src="scripts/app.js"></script>
+  <script src="scripts/buttonInit.js"></script>
+  <script src="scripts/socketClient.js"></script>
+  <script src="scripts/boardLayout.js"></script>
 </body>
 </html>

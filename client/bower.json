@@ -1,0 +1,18 @@
+{
+  "name": "Galactic Tango",
+  "homepage": "https://github.com/ethangodt/Galactic-Tango",
+  "authors": [
+    "Ethan Godt <ethan@ethangodt.com>"
+  ],
+  "description": "Multiplayer snakes game",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

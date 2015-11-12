@@ -9,7 +9,7 @@ var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
   this.sizeX = sizeX;
   this.sizeY = sizeY;
   this.init();
-  setInterval(this.tick, 1000);
+  setInterval(this.tick.bind(this), 1000);
 };
 
 Gameboard.prototype.init = function() {
@@ -57,23 +57,26 @@ function arrayEqual (arr1, arr2) {
 
 
 Gameboard.prototype.tick = function() {
-  this.players.forEach(function (snake) {
-    snake.move();
-  })
+  if (this.players){
+
+    this.players.forEach(function (snake) {
+      snake.move();
+    });
   console.log(this.checkCollission())
   socket.updateClients(
     {
       snakes: [{
-        location:gameboard.getSnakes()[0]
+        location:this.getSnakes()[0],
         id:0
       },
       {
-        location:gameboard.getSnakes()[1]
+        location:this.getSnakes()[1],
         id:1
       }
-      ]
+      ],
       collission:this.checkCollission()
     })
+  }
   console.log(this.getSnakes());
 };
 
@@ -86,8 +89,10 @@ Gameboard.prototype.dropApple = function(x ,y) {
 };
 
 
-var gameboard = new Gameboard (2 , 10, 10, 2);
-module.exports = gameboard;
+module.exports = function (){
+  var gameboard = new Gameboard (2 , 10, 10, 2);
+  
+};
 // gameboard.changeDir(0,'up')
 // gameboard.changeDir(1,'up')
 // gameboard.tick();

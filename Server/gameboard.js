@@ -8,7 +8,6 @@ var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
   this.sizeX = sizeX;
   this.sizeY = sizeY;
   this.init();
-  setInterval(this.tick.bind(this), 1000);
 };
 
 Gameboard.prototype.init = function() {

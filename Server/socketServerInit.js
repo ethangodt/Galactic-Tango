@@ -8,6 +8,6 @@ module.exports = io(server.server);
 module.exports.on('turn', function(){});
 
 module.exports.updateClients = function (gameData) {
- socket.emit('update', gameData);
+ this.emit('update', gameData);
  //can be caught on the client-side with io.on('update', callback)
 }

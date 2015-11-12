@@ -16,22 +16,25 @@ app.use(express.static(__dirname + '/../client/'));
 // todo this userNumber information seems like it should go somewhere else more perm
 var userNumber = 0;
 
+socket.on('connection', function () {
+  console.log('connected!')
+  var board = new Gameboard(2, 100, 50, 3);
+  var timer = setInterval(function () {
+
+    var gameData = board.tick();
+    console.log(gameData);
+    socket.updateClients(gameData);
+    if (gameData.collission){
+      clearInterval(timer);
+    }
+  }, 3000)
+})
+
+
 app.get('/users', function (req, res) {
+  console.log('GET')
   res.json(userNumber++)
   // res.json({id: utils.generateRandomId(7)});
-
-  if(userNumber === 1) {
-    socket.on('connection', function (socket) {
-      var board = new Gameboard(2, 100, 100, 3);
-      var timer = setInterval(function () {
-        var gameData = board.tick();
-        socket.updateClients(gameData);
-        if (gameData.collission){
-          clearInterval(timer);
-        }
-      }, 1000)
-    })
-  }
 });
 
 module.exports.server.listen(8080);

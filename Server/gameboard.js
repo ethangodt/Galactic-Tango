@@ -29,16 +29,36 @@ Gameboard.prototype.getSnakes = function() {
 };
 
 Gameboard.prototype.checkCollission = function() {
-  
-    this.players.map(function (snake) {
-      snake.getBody();
-    })
+  for (var i = 0; i < this.players.length; i++) {
+      var head = this.players[i].getHead()
+    for (var j = 0; j < this.players.length; j++){
+      if (i === j){
+        //console.log('continued');
+        continue;
+      } else {
+        var body = this.players[j].getBody();
+        for(var k = 0; k < body.length; k++){
+          //console.log('head is', head, 'body part is', body[k])
+          //console.log('i,j,k', i,j,k)
+          if (arrayEqual(head, body[k])){
+            return true;
+          }
+        }
+      }
+    }
+  };
+  return false;
 };
+function arrayEqual (arr1, arr2) {
+  return arr1[0] === arr2[0] && arr1[1] === arr2[1]
+}
 
 Gameboard.prototype.tick = function() {
   this.players.forEach(function (snake) {
     snake.move();
   })
+  console.log(this.getSnakes());
+  console.log(this.checkCollission())
 };
 
 Gameboard.prototype.changeDir = function ( playerNum, dir ) {
@@ -49,16 +69,15 @@ Gameboard.prototype.dropApple = function(x ,y) {
 
 };
 
-var gameboard = new Gameboard (1 , 1000, 500, 3);
-console.log(gameboard.getSnakes())
-gameboard.tick();
-gameboard.tick();
-gameboard.tick();
-console.log(gameboard.getSnakes())
-gameboard.changeDir(0, 'up')
-gameboard.tick();
-gameboard.tick();
-gameboard.tick();
-console.log(gameboard.getSnakes())
+// var gameboard = new Gameboard (2 , 10, 10, 2);
+// gameboard.changeDir(0,'up')
+// gameboard.changeDir(1,'up')
+// gameboard.tick();
+// gameboard.changeDir(0,'right')
+// gameboard.changeDir(1,'down')
+// gameboard.tick();
+// gameboard.tick();
+
+
 
 

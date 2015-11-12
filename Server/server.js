@@ -1,9 +1,10 @@
 var express = require('express');
 var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var socketFunc = require('./socketServerInit.js');
+module.exports.server = require('http').Server(app);
+// var io = require('socket.io')(server);
+var socket = require('./socketServerInit.js');
 var utils = require('./utils/utils.js');
+var Gameboard = require('./gameboard.js')
 
 app.use(express.static(__dirname + '/../client/'));
 
@@ -13,19 +14,25 @@ app.use(express.static(__dirname + '/../client/'));
 // });
 
 // todo this userNumber information seems like it should go somewhere else more perm
-userNumber = 0;
+var userNumber = 0;
 
 app.get('/users', function (req, res) {
-  userNumber++;
-  res.json({id: utils.generateRandomId(7)});
+  res.json(userNumber++)
+  // res.json({id: utils.generateRandomId(7)});
 
   if(userNumber === 1) {
-    var socket = socketFunc.io(server);
-    socket.on('connection', require('./gameboard.js'));
+    socket.on('connection', function (socket) {
+      var board = new Gameboard(2, 100, 100, 3);
+      var timer = setInterval(function () {
+        var gameData = board.tick();
+        socket.updateClients(gameData);
+        if (gameData.collission){
+          clearInterval(timer);
+        }
+      }, 1000)
+    })
   }
 });
 
-server.listen(8080);
-
-module.exports = server;
+module.exports.server.listen(8080);
 

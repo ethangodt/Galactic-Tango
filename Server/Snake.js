@@ -3,6 +3,7 @@ var Snake = function (headX, headY, InitialDirection, initLength) {
   this.length = initLength-1;
   this.body = [ [headX,headY] ];
   this.init();
+
 }
 
 Snake.prototype.init = function() {
@@ -56,8 +57,10 @@ Snake.prototype.move = function(eat) {
   if(!eat){
     this.body.pop();
   }
-
 };
+
+
+
 
 module.exports = Snake;
 

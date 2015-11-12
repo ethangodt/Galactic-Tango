@@ -30,6 +30,9 @@ Gameboard.prototype.getSnakes = function() {
 
 Gameboard.prototype.checkCollission = function() {
   
+    this.players.map(function (snake) {
+      snake.getBody();
+    })
 };
 
 Gameboard.prototype.tick = function() {

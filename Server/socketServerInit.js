@@ -1,14 +1,21 @@
-
-var users = [];
-var nextUserId = 0;
+var io = require('socket.io');
 
 module.exports.io = function (server) {
-  var io = require('socket.io');
+
   var socket = io(server);
 
-  var boardController = require('SERVER_GAME_BOARD_MODULE')
+  module.exports.updateClients = function (gameData) {
+  socket.emit('update', gameData);
+  //can be caught on the client-side with io.on('update', callback)
+  }
 
-  socket.on('turn', boardController.turn);
+  module.exports.gameEnd = function (scores) {
+    socket.emit('gameOver', scoreBoard);
+  }
+
+  var boardController = require('./gameboard');
+
+  socket.on('turn', function(){});
 
   return socket;
 }

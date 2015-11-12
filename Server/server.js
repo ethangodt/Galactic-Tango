@@ -1,17 +1,23 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var socketFunc = require('./socketServerInit.js');
 
-server.listen(80);
+app.use(express.static(__dirname + '/../client/'));
 
-app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
-});
+server.listen(8080);
+
+// app.get('/', function (req, res) {
+//   console.log(__dirname + '/../client/index.html');
+//   res.sendfile(__dirname + '/../client/index.html');
+// });
 userNumber = 0;
-app.post('/users', function (req, res) {
+app.get('/users', function (req, res) {
   res.json({id: userNumber++});
-  if(userNumber === 2) {
-    module.require('./socketServerInit.js')().on('connection', require('./gameboard.js'));
+  if(userNumber === 1) {
+    var socket = socketFunc.io(server);
+    socket.on('connection', require('./gameboard.js'));
   }
 })
 

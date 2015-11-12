@@ -9,4 +9,6 @@ module.exports.io = function (server) {
   var boardController = require('SERVER_GAME_BOARD_MODULE')
 
   socket.on('turn', boardController.turn);
+
+  return socket;
 }

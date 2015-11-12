@@ -1,8 +1,8 @@
 //in html include the tag: <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
 
-var socket = io.(url);
+var socket = io('http://localhost:8080');
 
-socket.on('update', board.updateBoard);
+//socket.on('update', board.updateBoard);
 
 socket.on('gameOver', function (scores) {console.log(scores)});
 

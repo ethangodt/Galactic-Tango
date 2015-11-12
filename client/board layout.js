@@ -71,28 +71,27 @@ Board.prototype.updateStar = function(location){
   this.updateSquare(location, 'yellow');
 };
 
-var fakeGameObject = {
-  snakes: [{
-    location: [[5,5],[4,5],[3,5],[3,6],[3,7]],
-    id: 2
-  },
-  { 
-    location: [[25,25],[24,25],[23,25],[23,26],[23,27]],
-    id: 0
-  }],
-  stars: [{
-    location: [40, 3]
-  },
-  {
-    location: [3, 29]
-  }]
-};
+// var fakeGameObject = {
+//   snakes: [{
+//     location: [[5,5],[4,5],[3,5],[3,6],[3,7]],
+//     id: 2
+//   },
+//   { 
+//     location: [[25,25],[24,25],[23,25],[23,26],[23,27]],
+//     id: 0
+//   }],
+//   stars: [{
+//     location: [40, 3]
+//   },
+//   {
+//     location: [3, 29]
+//   }]
+// };
 
 document.addEventListener('DOMContentLoaded', function(){
-  var canvas = document.createElement('canvas');
-  document.querySelector('body').appendChild(canvas);
   
+  var canvas = document.getElementsByClassName('gameBoard')[0];  
   var myBoard = new Board(1000, 500, canvas);
-  myBoard.updateBoard(fakeGameObject);
-
+  myBoard.updateBoard();
+  socket.on('update', myBoard.updateBoard);
 });

@@ -29,8 +29,7 @@
 
   readyButton.addEventListener('click', function () {
     xhrPlayerInit(function (userData) {
-      // on successful init, set player object
-      app.user = userData;
+      app.user = userData; // on successful init, set player object
     });
     toLoadStyles();
   });

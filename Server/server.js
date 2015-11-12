@@ -18,6 +18,7 @@ userNumber = 0;
 app.get('/users', function (req, res) {
   userNumber++;
   res.json({id: utils.generateRandomId(7)});
+
   if(userNumber === 1) {
     var socket = socketFunc.io(server);
     socket.on('connection', require('./gameboard.js'));
@@ -25,3 +26,6 @@ app.get('/users', function (req, res) {
 });
 
 server.listen(8080);
+
+module.exports = server;
+

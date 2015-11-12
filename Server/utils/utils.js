@@ -1,3 +1,4 @@
+// we should consider using the socket id instead
 var generateRandomId = function (length) {
   var id = "";
   var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -11,4 +12,4 @@ var generateRandomId = function (length) {
 
 module.exports = {
   generateRandomId: generateRandomId
-}
+};

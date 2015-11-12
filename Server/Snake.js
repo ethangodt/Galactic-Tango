@@ -1,14 +1,13 @@
-Snake = function (headX, headY, InitialDirection) {
+var Snake = function (headX, headY, InitialDirection, initLength) {
   this.currDir = InitialDirection;
-  this.length = 3;
+  this.length = initLength-1;
   this.body = [ [headX,headY] ];
   this.init();
 }
 
 Snake.prototype.init = function() {
 //add the tail for the beginning of the game
-  console.log(this.body)
-  var initSize = 2;
+  var initSize = this.length;
 
 
   var headDir = this.dirArray();
@@ -60,7 +59,9 @@ Snake.prototype.move = function(eat) {
 
 };
 
-// var snake = new Snake( 5 , 5 , 'right')
+module.exports = Snake;
+
+// var snake = new Snake( 5 , 5 , 'right', 5)
 // console.log(snake.getBody())
 // snake.move();
 // console.log(snake.getBody());

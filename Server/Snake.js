@@ -3,10 +3,6 @@ var Snake = function (headX, headY, InitialDirection, initLength) {
   this.length = initLength-1;
   this.body = [ [headX,headY] ];
   this.init();
-<<<<<<< HEAD
-
-=======
->>>>>>> 601737398ec5dbb37e213f9617036ee3474e7255
 }
 
 Snake.prototype.init = function() {
@@ -60,15 +56,7 @@ Snake.prototype.move = function(eat) {
   if(!eat){
     this.body.pop();
   }
-<<<<<<< HEAD
 };
-
-
-
-=======
-
-};
->>>>>>> 601737398ec5dbb37e213f9617036ee3474e7255
 
 module.exports = Snake;
 

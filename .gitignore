@@ -1,9 +1,9 @@
 ## GALACTIC TANGO PROJECT
-/client/styles/**/*.css
 /PSD/
 /node_modules/
 /client/bower_components/
 
+.DS_Store
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template

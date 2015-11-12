@@ -1,0 +1,23 @@
+nav {
+	overflow: auto;
+}
+
+h1.logo {
+	font-size: 70px;
+	color: white;
+	float: left;
+	font-family: american_captainregular, sans-serif;
+	text-shadow: 0 0 10px rgba(255, 255, 255, .3);
+}
+
+button {
+	float: right;
+	margin-top: 7px;
+	background-color: #2e3192;
+	padding: 15px 40px;
+	font-family: american_captainregular, sans-serif;
+	font-size: 22px;
+	letter-spacing: 4px;
+	color: white;
+	outline: none;
+}

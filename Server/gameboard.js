@@ -53,6 +53,7 @@ function arrayEqual (arr1, arr2) {
   return arr1[0] === arr2[0] && arr1[1] === arr2[1]
 }
 
+
 Gameboard.prototype.tick = function() {
   this.players.forEach(function (snake) {
     snake.move();
@@ -77,7 +78,5 @@ Gameboard.prototype.dropApple = function(x ,y) {
 // gameboard.changeDir(1,'down')
 // gameboard.tick();
 // gameboard.tick();
-
-
 
 

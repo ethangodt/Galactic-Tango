@@ -1,0 +1,26 @@
+{
+  "name": "galactic-tango",
+  "version": "0.0.1",
+  "description": "A multiplayer snake game",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Galactic-Tango/Galactic-Tango.git"
+  },
+  "keywords": [
+    "snake",
+    "game",
+    "multiplayer",
+    "hack",
+    "reactor"
+  ],
+  "author": "Adam Grimm, Andrew Vickory, Oliver Wang, Ethan Godt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Galactic-Tango/Galactic-Tango/issues"
+  },
+  "homepage": "https://github.com/Galactic-Tango/Galactic-Tango#readme"
+}

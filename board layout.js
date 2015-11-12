@@ -11,26 +11,12 @@ var Board = function(width, height, canvas){
 
   this.canvasContext = this.canvas.getContext('2d');
   this.snakeColors = ['red', 'blue', 'green', 'purple'];
-  /*this.rows = [];
-  
-  for(var row = 0; row < height; row++){
-    this.rows[row] = [];
-    for(var col = 0; i < width; i++){
-      this.rows[row].push(0);
-    }
-  }*/
-}
+};
 
 Board.prototype.updateSquare = function(square, color){
-  //this.clearSquare(square);
   this.canvasContext.fillStyle = color;
   this.canvasContext.fillRect(square[0]*this.pixels, square[1]*this.pixels, this.pixels, this.pixels);
-}
-
-Board.prototype.clearSquare = function(square){
-  this.canvasContext.fillStyle = 'white';
-  this.canvasContext.fillRect(square[0]*this.pixels, square[1]*this.pixels, this.pixels, this.pixels);
-}
+};
 
 Board.prototype.renderWalls = function(walls){
   for(var col = 0; col < this.width; col++){
@@ -47,7 +33,7 @@ Board.prototype.renderWalls = function(walls){
       this.updateSnake(walls[i], 'black');
     }
   }
-}
+};
 
 Board.prototype.initialRender = function(){
   for(var row = 0; row < this.height; row++){
@@ -79,11 +65,11 @@ Board.prototype.updateBoard = function(gameObject){
       this.updateStar(star.location);  
     }, this);
   }
-}
+};
 
 Board.prototype.updateStar = function(location){
   this.updateSquare(location, 'yellow');
-}
+};
 
 var fakeGameObject = {
   snakes: [{
@@ -107,10 +93,6 @@ document.addEventListener('DOMContentLoaded', function(){
   document.querySelector('body').appendChild(canvas);
   
   var myBoard = new Board(1000, 500, canvas);
-  myBoard.initialRender();
-  myBoard.renderWalls();
-
-  //myBoard.updateSnake([[5,5],[4,5],[3,5],[3,6],[3,7]], 'red');
   myBoard.updateBoard(fakeGameObject);
 
 });

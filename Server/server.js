@@ -13,6 +13,8 @@ app.post('/users', function (req, res) {
 })
 
 
-module.require('./socketServerInterface.js');
+module.require('./socketServerInit.js')().on('connection', function () {
+
+});
 
 

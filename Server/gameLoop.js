@@ -1,17 +1,13 @@
 var settings = require('./gameSettings');
 var io = require('./server.js').io;
 
-console.log(io);
-
-// todo fix getRoom irregularity
-module.exports = function (roomName, getRoom) {
+// todo is there any way to fix getRoom injection irregularity
+module.exports = function (roomName, rooms) {
   var timer = setInterval(function () {
-    //console.log('emitting to ' + roomName);
-    //console.log('rooms = ', rooms);
 
-    getRoom(roomName).gameInProgress = true;
+    rooms.getRoom(roomName).gameInProgress = true;
 
-    var gameData = getRoom(roomName).game.tick();
+    var gameData = rooms.getRoom(roomName).game.tick();
     io.to(roomName).emit('update', gameData);
 
     // todo end up deleting this for production

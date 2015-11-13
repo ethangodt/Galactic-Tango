@@ -2,7 +2,6 @@ var rooms = require('./rooms');
 
 // function to apply behavior to socket communication
 module.exports = function (socket) {
-
   console.log('connection established');
 
   socket.on('disconnect', function () {

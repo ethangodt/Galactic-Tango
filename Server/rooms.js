@@ -20,7 +20,7 @@ var roomsManager = {
   },
   launchGame: function () {
     rooms[currentRoomName].game = new GameBoard(settings.maxSnakes, settings.boardDimensions[0], settings.boardDimensions[1], settings.snakeStartLength);
-    gameLoop(currentRoomName, this.getRoom);
+    gameLoop(currentRoomName, this); // 2nd param is passing a reference to the room manager for the gameLoop
   },
   placePlayer: function (socket) {
     if (!currentRoomName) {
@@ -32,8 +32,6 @@ var roomsManager = {
     rooms[currentRoomName].players.push(socket.id);
 
     if(rooms[currentRoomName].players.length === settings.maxSnakes){
-      //console.log('maxPlayers reached.  Game created in ' + currentRoomName);
-      //console.log('currentRoom = ', currentRoom);
       this.launchGame();
       currentRoomName = null;
     }

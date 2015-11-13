@@ -21,3 +21,21 @@ button {
 	color: white;
 	outline: none;
 }
+
+button.pre-click {
+    height: 120%;
+    left: -10%;
+    transform: skewX(15deg);
+    z-index: -1;
+    &:hover {
+    	flex-grow:3;
+    };
+}
+
+button.load {
+	
+}
+
+button.game-on {
+	
+}

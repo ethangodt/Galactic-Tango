@@ -2,9 +2,11 @@
   'use strict';
 
   var readyButton = document.getElementById('readyButton');
+  readyButton.pressed = false;
 
   var applyLoadingStyles = function () {
     // change button css to load state class
+    readyButton.className = 'load';
   };
   
   readyButton.addEventListener('click', function () {

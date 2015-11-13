@@ -93,4 +93,5 @@ document.addEventListener('DOMContentLoaded', function(){
   var canvas = document.getElementsByClassName('gameBoard')[0];  
   window.myBoard = new Board(1000, 500, canvas);
   window.myBoard.updateBoard();
+
 });

@@ -29,28 +29,28 @@
   };
 
   app.Board.prototype.renderWalls = function(walls){
-    for(var col = 0; col < this.width; col++){
-      this.updateSquare([col, 0], 'pink');
-      this.updateSquare([col, this.height-1], 'pink');
-    }
-    for(var row = 0; row < this.height; row++){
-      this.updateSquare([0, row], 'pink');
-      this.updateSquare([this.width-1, row], 'pink');
-    }
-
-    if(walls){
-      for(var i = 0; i < walls.length; i++){
-        this.updateSnake(walls[i], 'pink');
-      }
-    }
+    //for(var col = 0; col < this.width; col++){
+    //  this.updateSquare([col, 0], 'pink');
+    //  this.updateSquare([col, this.height-1], 'pink');
+    //}
+    //for(var row = 0; row < this.height; row++){
+    //  this.updateSquare([0, row], 'pink');
+    //  this.updateSquare([this.width-1, row], 'pink');
+    //}
+    //
+    //if(walls){
+    //  for(var i = 0; i < walls.length; i++){
+    //    this.updateSnake(walls[i], 'pink');
+    //  }
+    //}
   };
 
   app.Board.prototype.initialRender = function(){
     for(var row = 0; row < this.height; row++){
       for(var col = 0; col < this.width; col++){
-        if((row + col) % 2){
-          this.updateSquare([col,row], 'grey');
-        }
+        //if((row + col) % 2){
+        //  this.updateSquare([col,row], 'grey');
+        //}
       }
     }
   };

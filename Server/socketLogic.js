@@ -6,19 +6,16 @@ module.exports = function (socket) {
 
   socket.on('disconnect', function () {
     // todo remove from current room
-    // todo remove listeners
+    rooms.handlePlayerDisconnect(socket);
     console.log('server disconnected');
   });
 
   socket.on('turn', function (data) {
-    // todo check to see if game is started
-    // todo call game room turn handler
-    for(var room in this.adapter.rooms){
-      if(room.length === 7){
-        var playerIndex = rooms.getRoom(room).players.indexOf(this.id);
-        console.log('player index of turning snake is ' + playerIndex);
-        rooms.getRoom(room).game.changeDir(playerIndex, data.direction);
-      }
+    var room = rooms.getRoom(this.room);
+    if (room.game) {
+      var playerIndex = rooms.getPlayerIndex(socket);
+      console.log('player index of turning snake is ' + playerIndex);
+      room.game.changeDir(playerIndex, data.direction);
     }
   });
 

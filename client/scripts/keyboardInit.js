@@ -6,6 +6,8 @@
   };
 
   window.addEventListener('keydown', function(event) {
+    event.preventDefault();
+
     switch (event.keyCode) {
       case 37: // Left
         turn('left');

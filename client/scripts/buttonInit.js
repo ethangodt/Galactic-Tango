@@ -18,15 +18,10 @@
 
   readyButton.addEventListener('click', function () {
     if(!this.pressed) {
-      if(!app.socket) {
-        app.socket = io('http://localhost:8080');
-        app.socketOpen = true
-        app.socket.on('update', function (gameData) {
-          app.board.updateBoard(gameData);
-          app.board.gameStart = true;
-          setButtonStyle();
-          //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
-        })
+      if(!socket) {
+        socket = openSocket();
+      } else {
+        //send a ready signal to server 
       }
       this.pressed = true;
       setButtonStyle();

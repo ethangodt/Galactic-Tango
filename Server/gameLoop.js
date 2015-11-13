@@ -11,10 +11,9 @@ module.exports = function (roomName, rooms) {
       var gameData = rooms.getRoom(roomName).game.tick();
       io.to(roomName).emit('update', gameData);
 
-      // todo end up deleting this for production
-      if (gameData.collission !== -1){
-        clearInterval(timer);
-      }
-    }, settings.loopSpeed);
-  }, 3000);
+    // todo end up deleting this for production
+    if (gameData.collision){
+      console.log('collision detected');
+    }
+  }, settings.loopSpeed);
 };

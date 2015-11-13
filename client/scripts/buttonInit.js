@@ -6,6 +6,7 @@
   var readyButton = document.getElementById('readyButton');
   readyButton.pressed = false;
 
+
   var setButtonStyle = function () {
     if(readyButton.pressed) {
       readyButton.className = 'load';

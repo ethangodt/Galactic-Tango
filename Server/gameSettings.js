@@ -1,11 +1,6 @@
-// add maxPlayers
-// add speed of interval
-// add size of board
-// etc
-
 module.exports = {
-  maxSnakes: 1,
+  maxSnakes: 2,
   snakeStartLength: 3,
-  loopSpeed: 3000,
+  loopSpeed: 200,
   boardDimensions: [105, 58]
 };

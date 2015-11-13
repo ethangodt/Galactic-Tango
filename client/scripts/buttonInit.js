@@ -51,7 +51,7 @@
           console.log(counter--);
           if(counter === 0) {
             clearInterval(timer);
-            app.board.gameStart = true;
+            app.gameStart = true;
           }
         }, 1000);
       });

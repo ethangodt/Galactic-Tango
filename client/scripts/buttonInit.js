@@ -42,15 +42,15 @@
       });
       socket.on('gameEnd', function (scores) {
         readyButton.pressed = false;
-        window.myBoard.gameStart = false;
+        app.gameStart = false;
         setButtonStyle();
       });
       socket.on('countdown', function () {
         //add a graphic representation
         myBoard.updateBoard();
         var counter = 3;
+        app.board.gameStart = true;
         var timer = setInterval(function () {
-          window.myBoard.gameStart = true;
           setButtonStyle();
           console.log(counter--);
           if(counter === 0) {

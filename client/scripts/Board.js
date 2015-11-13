@@ -55,14 +55,16 @@
     }
   };
 
-  app.Board.prototype.updateSnake = function(snake, color){ 
-    for(var i = 0; i < snake.length; i++){
-      this.updateSquare(snake[i], color);
+  app.Board.prototype.updateSnake = function(snakeLocation, color){ 
+    for(var i = 0; i < snakeLocation.length; i++){
+      this.updateSquare(snakeLocation[i], color);
     }
   };
 
   app.Board.prototype.updateBoard = function(gameObject){
+    console.log('board updated with ', gameObject);
     this.canvasContext.clearRect(0,0, this.width*this.pixels, this.height*this.pixels);
+    
     this.initialRender();
     this.renderWalls();
 
@@ -70,10 +72,12 @@
       gameObject.snakes.forEach(function(snake){
         this.updateSnake(snake.location, this.snakeColors[snake.id]);  
       }, this);
-
-      gameObject.stars.forEach(function(star){
-        this.updateStar(star.location);  
-      }, this);
+      
+      if(gameObject.stars){
+        gameObject.stars.forEach(function(star){
+          this.updateStar(star.location);  
+        }, this);
+      }
     }
   };
 

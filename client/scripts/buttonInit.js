@@ -26,12 +26,16 @@
   var applyLoadingStyles = function () {
     // change button css to load state class
   };
+  
 
   readyButton.addEventListener('click', function () {
-    xhrPlayerInit(function (userData) {
+    /*xhrPlayerInit(function (userData) {
       app.user = userData; // on successful init, set player object
     });
-    toLoadStyles();
+    toLoadStyles();*/
+    console.log('button clicked');
+    app.socket = io('http://localhost:8080');
+    app.socket.on('update', app.board.updateBoard.bind(app.board));
   });
 
   // setup up another listener for game start that makes the button fade out, or something.

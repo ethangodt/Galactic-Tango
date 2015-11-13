@@ -45,7 +45,7 @@ Gameboard.prototype.checkCollission = function() {
       }
     }
   };
-  return false;
+  return -1;
 };
 
 

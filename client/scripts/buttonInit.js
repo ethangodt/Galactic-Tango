@@ -3,6 +3,7 @@
   app.socket;
   app.gameStart = false
 
+
   var readyButton = document.getElementById('readyButton');
   readyButton.pressed = false;
 

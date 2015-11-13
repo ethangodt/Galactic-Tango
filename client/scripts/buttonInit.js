@@ -35,7 +35,6 @@
         //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
         //*put them here.
       });
-<<<<<<< HEAD
       app.socket.on('gameEnd', function (scores) {
         readyButton.pressed = false;
         app.gameStart = false;

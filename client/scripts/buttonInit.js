@@ -40,6 +40,7 @@
       socket.on('gameEnd', function (scores) {
         readyButton.pressed = false;
         app.gameStart = false;
+
         setButtonStyle();
       });
       socket.on('countdown', function () {
@@ -48,6 +49,7 @@
         var counter = 3;
         app.board.gameStart = true;
         var timer = setInterval(function () {
+
           setButtonStyle();
           console.log(counter--);
           if(counter === 0) {
@@ -55,6 +57,7 @@
           }
         }, 1000);
       });
+
   }
 
 

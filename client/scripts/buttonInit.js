@@ -1,6 +1,7 @@
 (function (app) {
   'use strict';
-  var socket;
+  app.socket;
+  app.gameStart = false
 
   var readyButton = document.getElementById('readyButton');
   readyButton.pressed = false;
@@ -8,7 +9,7 @@
   var setButtonStyle = function () {
     if(readyButton.pressed) {
       readyButton.className = 'load';
-    } else if (window.myBoard.gameStart) {
+    } else if (app.gameStart) {
       readyButton.className = 'game-on';
     } else {
       readyButton.className = 'pre-click';
@@ -16,10 +17,15 @@
   }
   readyButton.addEventListener('click', function () {
     if(!this.pressed) {
-      if(!socket) {
-        socket = openSocket();
-      } else {
-        //send a ready signal to server 
+      if(!app.socket) {
+        app.socket = io('http://localhost:8080');
+        app.socketOpen = true
+        app.socket.on('update', function (gameData) {
+          app.board.updateBoard(gameData);
+          app.board.gameStart = true;
+          setButtonStyle();
+          //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
+        })
       }
       this.pressed = true;
       setButtonStyle();

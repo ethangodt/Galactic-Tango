@@ -3,7 +3,7 @@ var Snake = require('./Snake');
 var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
   this.initSize = initSize || 3;
   this.players = []; //array of current players
-  this.apples = []; //array of apples
+  this.stars = []; //array of stars
   this.numPlayer = numPlayer;
   this.sizeX = sizeX;
   this.sizeY = sizeY;
@@ -40,7 +40,7 @@ Gameboard.prototype.checkCollission = function() {
         if (i === j && k ===0){
           continue;
         } else if (arrayEqual(head, body[k])){
-          return true;
+          return i;
         }
       }
     }
@@ -55,17 +55,18 @@ Gameboard.prototype.tick = function() {
     this.players.forEach(function (snake) {
       snake.move();
     });
-  var gameData = this.getSnakes();
+  var snakeLocations = this.getSnakes();
   var snakeData = []
-  for (var i = 1; i <= this.numPlayer; i++){
+  for (var i = 0; i < this.numPlayer; i++){
     snakeData.push({
-      location:gameData[i],
-      id: i-1
+      location:snakeLocations[i],
+      id: i
     })
   }
   return {
     snakes:snakeData,
-    collission:this.checkCollission()
+    collission:this.checkCollission(),
+    starLocation:this.stars
     }
 };
 
@@ -73,7 +74,26 @@ Gameboard.prototype.changeDir = function ( playerNum, dir ) {
   this.players[playerNum].setDirection(dir);
 };
 
-Gameboard.prototype.dropApple = function(x ,y) {
+Gameboard.prototype.dropStars = function(x ,y) {
+  function generateRandomLocation() {
+    return [Math.floor(Math.random()*this.sizeX), Math.floor(Math.random()*this.sizeY)]
+  }
+  function checkForCollision (location) {
+    var unavailableBlocks = this.getSnakes().reduce(function (blocks, snake) {
+        return blocks.concat(snake);
+    });
+    for (var i = unavailableBlocks.length - 1; i >= 0; i--) {
+      if (arrayEqual(unavailableBlocks[i],location)){
+        return true;
+      }
+    };
+    return false;
+  }
+  do{
+    var tempLocation = generateRandomLocation.call(this);
+  } while (checkForCollision.call(this,tempLocation));
+
+  this.stars.push(tempLocation)
 
 };
 
@@ -85,8 +105,13 @@ function arrayEqual (arr1, arr2) {
 
 function test(gameboard) {
   //used for dev testing
-  gameboard.tick();
+  console.log(gameboard.tick());
   console.log(gameboard.checkCollission());
-  console.log(gameboard.getSnakes());
+  console.log('current snakes', gameboard.getSnakes());
 }
+
+// var gameboard = new Gameboard(2,20,20,5);
+// // gameboard.dropStars()
+
+
 

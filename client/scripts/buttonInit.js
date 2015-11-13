@@ -16,11 +16,6 @@
     }
   }
 
-  var toGameStyles = function () {
-    readyButton.className = 'game-on';
-    //change button css to game state class
-  }
-
   readyButton.addEventListener('click', function () {
     if(!this.pressed) {
       if(!socket) {
@@ -31,7 +26,6 @@
       this.pressed = true;
       setButtonStyle();
     }
-
   });
 
   var openSocket = function () {
@@ -60,7 +54,6 @@
           }
         }, 1000);
       });
-    }
   }
 
 

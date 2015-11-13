@@ -13,8 +13,10 @@ var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
 Gameboard.prototype.init = function() {
   var midPoint = [Math.floor(this.sizeX*.5), Math.floor(this.sizeY*.5)];
   var size = this.initSize;
+  //offset from the middle
   var startingPosOffset = [[-size, 0], [size,0], [0, -size], [0, size]];
   var startingDir = ['left', 'right', 'up', 'down']
+  //each player starts away from the center 
   for (var i = 0; i < this.numPlayer; i++) {
     this.players.push(new Snake( midPoint[0] + startingPosOffset[i][0] , 
                                  midPoint[1] + startingPosOffset[i][1], startingDir[i], this.initSize ));
@@ -29,29 +31,23 @@ Gameboard.prototype.getSnakes = function() {
 };
 
 Gameboard.prototype.checkCollission = function() {
+  var skippedHead = false;
   for (var i = 0; i < this.players.length; i++) {
       var head = this.players[i].getHead()
     for (var j = 0; j < this.players.length; j++){
-      if (i === j){
-        //console.log('continued');
-        continue;
-      } else {
-        var body = this.players[j].getBody();
-        for(var k = 0; k < body.length; k++){
-          //console.log('head is', head, 'body part is', body[k])
-          //console.log('i,j,k', i,j,k)
-          if (arrayEqual(head, body[k])){
-            return true;
-          }
+      var body = this.players[j].getBody();
+      for(var k = 0; k < body.length; k++){
+        if (i === j && k ===0){
+          continue;
+        } else if (arrayEqual(head, body[k])){
+          return true;
         }
       }
     }
   };
   return false;
 };
-function arrayEqual (arr1, arr2) {
-  return arr1[0] === arr2[0] && arr1[1] === arr2[1]
-}
+
 
 
 Gameboard.prototype.tick = function() {
@@ -60,15 +56,15 @@ Gameboard.prototype.tick = function() {
       snake.move();
     });
   var gameData = this.getSnakes();
+  var snakeData = []
+  for (var i = 1; i <= this.numPlayer; i++){
+    snakeData.push({
+      location:gameData[i],
+      id: i-1
+    })
+  }
   return {
-    snakes:[{
-        location:gameData[0],
-        id:0
-      },
-      {
-        location:gameData[1],
-        id:1
-      }],
+    snakes:snakeData,
     collission:this.checkCollission()
     }
 };
@@ -81,15 +77,16 @@ Gameboard.prototype.dropApple = function(x ,y) {
 
 };
 
-
 module.exports = Gameboard;
 
-// gameboard.changeDir(0,'up')
-// gameboard.changeDir(1,'up')
-// gameboard.tick();
-// gameboard.changeDir(0,'right')
-// gameboard.changeDir(1,'down')
-// gameboard.tick();
-// gameboard.tick();
+function arrayEqual (arr1, arr2) {
+  return arr1[0] === arr2[0] && arr1[1] === arr2[1]
+}
 
+function test(gameboard) {
+  //used for dev testing
+  gameboard.tick();
+  console.log(gameboard.checkCollission());
+  console.log(gameboard.getSnakes());
+}
 

@@ -76,7 +76,7 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     // remove from current room
     //TODO: remove listeners
-    room.players.pop();
+    //room.players.pop();
     console.log('server disconnected');
     //this.removeListener('turn');
   })
@@ -85,12 +85,13 @@ io.on('connection', function (socket) {
     // check to see if game is started
     // pass the data to the game
     console.log('turn data = ', data);
+    console.log(this.adapter.rooms);
     
     for(var room in this.adapter.rooms){
       if(room.length === 7){
         var playerIndex = rooms[room].players.indexOf(this.id);
         console.log('player index of turning snake is ' + playerIndex);
-        rooms[room].game.changeDir(playerIndex, data);
+        rooms[room].game.changeDir(playerIndex, data.direction);
       }
     }
   })
@@ -123,10 +124,10 @@ io.on('connection', function (socket) {
       var gameData = rooms[roomName].game.tick();
       //console.log(gameData);
       io.to(roomName).emit('update', gameData);
-      if (gameData.collission){
+      if (gameData.collission !== -1){
         clearInterval(timer);
       }
-    }})(currentRoom.roomName), 1000);
+    }})(currentRoom.roomName), 500);
 
     
     currentRoom = {

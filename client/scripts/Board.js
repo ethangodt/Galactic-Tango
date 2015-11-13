@@ -56,7 +56,6 @@
   };
 
   app.Board.prototype.updateSnake = function(snakeLocation, color){ 
-    debugger;
     for(var i = 0; i < snakeLocation.length; i++){
       this.updateSquare(snakeLocation[i], color);
     }
@@ -73,10 +72,12 @@
       gameObject.snakes.forEach(function(snake){
         this.updateSnake(snake.location, this.snakeColors[snake.id]);  
       }, this);
-
-      gameObject.stars.forEach(function(star){
-        this.updateStar(star.location);  
-      }, this);
+      
+      if(gameObject.stars){
+        gameObject.stars.forEach(function(star){
+          this.updateStar(star.location);  
+        }, this);
+      }
     }
   };
 

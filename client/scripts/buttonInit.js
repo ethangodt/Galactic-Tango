@@ -15,6 +15,7 @@
       readyButton.className = 'pre-click';
     }
   }
+
   readyButton.addEventListener('click', function () {
     if(!this.pressed) {
       if(!socket) {
@@ -25,6 +26,7 @@
       this.pressed = true;
       setButtonStyle();
     }
+
   });
 
   var openSocket = function () {

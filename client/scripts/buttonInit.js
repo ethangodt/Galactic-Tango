@@ -10,7 +10,7 @@
   readyButton.addEventListener('click', function () {
     console.log('button clicked');
     app.socket = io('http://localhost:8080');
-    app.socket.on('update', app.board.updateBoard.bind(app.board));
+    applyListeners();
   });
 
   // setup up another listener for game start that makes the button fade out, or something.

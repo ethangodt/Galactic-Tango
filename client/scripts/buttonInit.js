@@ -23,7 +23,7 @@
     };
   };
 
-  var toLoadStyles = function () {
+  var applyLoadingStyles = function () {
     // change button css to load state class
   };
 

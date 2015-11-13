@@ -14,18 +14,12 @@
     } else {
       readyButton.className = 'pre-click';
     }
-
-  }
-
-  var toGameStyles = function () {
-    readyButton.className = 'game-on';
-    //change button css to game state class
   }
 
   readyButton.addEventListener('click', function () {
     if(!this.pressed) {
       if(!socket) {
-        socket = openSocket();
+        app.socket = openSocket();
       } else {
         //send a ready signal to server 
       }
@@ -35,26 +29,24 @@
   });
 
   var openSocket = function () {
-      var socket = io('http://localhost:8080');
-      socket.on('update', function (gameData) {
-        window.myBoard.updateBoard(gameData);
+      app.socket = io('http://localhost:8080');
+      app.socket.on('update', function (gameData) {
+        wapp.board.updateBoard(gameData);
         //might want to move this to the game start listener when we have that.
         //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
         //*put them here.
       });
-      socket.on('gameEnd', function (scores) {
+      app.socket.on('gameEnd', function (scores) {
         readyButton.pressed = false;
         app.gameStart = false;
-
         setButtonStyle();
       });
-      socket.on('countdown', function () {
+      app.socket.on('countdown', function () {
         //add a graphic representation
-        myBoard.updateBoard();
+        app.board.updateBoard();
         var counter = 3;
         app.board.gameStart = true;
         var timer = setInterval(function () {
-
           setButtonStyle();
           console.log(counter--);
           if(counter === 0) {

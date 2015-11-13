@@ -86,7 +86,7 @@ Gameboard.prototype.dropStars = function(x ,y) {
       if (arrayEqual(unavailableBlocks[i],location)){
         return true;
       }
-    };
+    }
     return false;
   }
   do{

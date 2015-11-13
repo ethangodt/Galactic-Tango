@@ -30,11 +30,12 @@
   var openSocket = function () {
       app.socket = io('http://localhost:8080');
       app.socket.on('update', function (gameData) {
-        wapp.board.updateBoard(gameData);
+        app.board.updateBoard(gameData);
         //might want to move this to the game start listener when we have that.
         //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
         //*put them here.
       });
+<<<<<<< HEAD
       app.socket.on('gameEnd', function (scores) {
         readyButton.pressed = false;
         app.gameStart = false;
@@ -50,6 +51,7 @@
           console.log(counter--);
           if(counter === 0) {
             clearInterval(timer);
+            app.board.gameStart = true;
           }
         }, 1000);
       });

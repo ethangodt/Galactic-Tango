@@ -1,4 +1,4 @@
-(function () {
+(function (app) {
   'use strict';
 
   var turn = function (direction) {
@@ -25,4 +25,4 @@
     }
   }, false);
 
-}());
+}(window.app));

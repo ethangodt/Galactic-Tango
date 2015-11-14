@@ -22,7 +22,7 @@
   readyButton.addEventListener('click', function () {
     if(!this.pressed) {
       if(!app.socket) {
-        console.log('socket open');
+        //console.log('socket open');
         openSocket();
       } else {
         //send a ready signal to server 
@@ -30,6 +30,7 @@
       this.pressed = true;
       gameOver.style.display = 'none';
     }
+
   });
 
   var iLost = function () {

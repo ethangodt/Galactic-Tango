@@ -14,7 +14,6 @@ module.exports = function (socket) {
     var room = rooms.getRoom(this.room);
     if (room.game) {
       var playerIndex = rooms.getPlayerIndex(socket);
-      console.log('player index of turning snake is ' + playerIndex);
       room.game.changeDir(playerIndex, data.direction);
     }
   });

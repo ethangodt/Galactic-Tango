@@ -6,14 +6,14 @@ module.exports = function (roomName, rooms) {
   setTimeout(function (){ // delays the gameLoop for a three second countdown on the client side
     var timer = setInterval(function () {
 
-      rooms.getRoom(roomName).gameInProgress = true;
+    rooms.getRoom(roomName).gameInProgress = true;
 
-      var gameData = rooms.getRoom(roomName).game.tick();
-      io.to(roomName).emit('update', gameData);
+    var gameData = rooms.getRoom(roomName).game.tick();
+    io.to(roomName).emit('update', gameData);
 
-    // todo end up deleting this for production
-    if (gameData.collision){
-      console.log('collision detected');
+    if (gameData.winner !== -1){
+      io.to(roomName).emit('game over', gameData.winner);
+      clearInterval(timer);
     }
   }, settings.loopSpeed);
 };

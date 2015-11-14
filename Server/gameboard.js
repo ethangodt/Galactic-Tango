@@ -3,7 +3,7 @@ var Snake = require('./Snake');
 var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
   this.initSize = initSize || 3;
   this.snakes = []; //array of current snakes
-  this.stars = []; //array of stars
+  this.items = []; //array of items
   this.walls = [];
   this.numPlayer = numPlayer;
   this.sizeX = sizeX;
@@ -34,37 +34,34 @@ Gameboard.prototype.init = function() {
     this.walls.push([-1, i]);
     this.walls.push([this.sizeX, i]);
   }
+  this.dropStars();
 
 };
 
-Gameboard.prototype.getLiveSnakes = function() {
-  return this.snakes.reduce(function (snake) {
-    if(!snake.dead){
-      result.push(snake.body);
-    }
-    return result;
+Gameboard.prototype.getItemLocs = function(){
+  return this.items.map(function(item){
+    return item.location;
   }, []);
+}
+
+Gameboard.prototype.getSnakes = function(live) {
+  if(!live) {
+    return this.snakes.map(function (snake) {
+      return snake.getBody();
+    })
+  } else {
+    return this.snakes.reduce(function (liveSnakes, snake) {
+      if(!snake.dead){
+        liveSnakes.push(snake);
+      }
+      return liveSnakes;
+    }, [])
+  }
 };
 
 //loc is position to check for collisions
 //checkAgainst is an array of tuples to look for collisions
 Gameboard.prototype.checkCollision = function(loc, checkAgainst) {
-  /*var skippedHead = false;
-  for (var i = 0; i < this.snakes.length; i++) {
-      var head = this.snakes[i].getHead()
-    for (var j = 0; j < this.snakes.length; j++){
-      var body = this.snakes[j].getBody();
-      for(var k = 0; k < body.length; k++){
-        if (i === j && k ===0){
-          continue;
-        } else if (arrayEqual(head, body[k])){
-          return i;
-        }
-      }
-    }
-  };
-  return -1;*/
-  console.log(loc);
   for(var i = 0; i < checkAgainst.length; i++){
     if(arrayEqual(loc, checkAgainst[i])){
       return true;
@@ -77,11 +74,24 @@ Gameboard.prototype.checkCollision = function(loc, checkAgainst) {
 
 Gameboard.prototype.tick = function() {
   this.snakes.forEach(function (snake) {
-    snake.move();
-  });
+    if(!snake.dead){
+      snake.move();
+      for(var i = 0; i < this.items.length; i++){
+        if(this.checkCollision(snake.getHead(), [this.items[i].location])){
+          var itemEaten = this.items.splice(i, 1);
+          if(itemEaten[0].type === 'star'){
+            console.log('star eaten! ', JSON.stringify(itemEaten));
+            snake.ateStar = true;
+            this.dropStars();
+          }
+        }
+      }
+    }
+  }, this);
 
   var snakeLocations = this.getSnakes();
-  var snakeData = []
+  var snakeData = [];
+
   for (var i = 0; i < this.numPlayer; i++){
     snakeData.push({
       location:snakeLocations[i],
@@ -90,39 +100,56 @@ Gameboard.prototype.tick = function() {
   }
 
   var collision = false;
-  var gameOver = false;
+  var winner = -1;
   
   for(var i = 0; i < this.snakes.length; i++){
-    if(this.checkCollision(this.snakes[i].getHead(), this.getBarriers())){
+    if(!this.snakes[i].dead && this.checkCollision(this.snakes[i].getHead(), this.getBarriers(i))){
       collision = true;
-      gameOver = this.killSnake(i);
+      winner = this.killSnake(i);
     }
   }
 
   return {
     snakes: snakeData,
-    gameOver: gameOver,
-    starLocation:this.stars
+    winner: winner,
+    items: this.items
   }
 };
 
+//killSnake returns the index of the winning snake if only one remains
+//otherwise, it returns -1
 Gameboard.prototype.killSnake = function (snakeIndex){
+  var deadSnakes = 0;
+  var winner = 0;
   this.snakes[snakeIndex].killSnake();
+  for(var i = 0; i < this.snakes.length; i++){
+    winner += i;
+    if(this.snakes[i].dead){
+      winner -= i;
+      deadSnakes++;
+    }
+  }
+
+  return (deadSnakes+1 === this.numPlayer) ? winner : -1;
+
 }
 
 Gameboard.prototype.changeDir = function ( playerNum, dir ) {
   this.snakes[playerNum].setDirection(dir);
 };
 
-Gameboard.prototype.getBarriers = function(){
+Gameboard.prototype.getBarriers = function(snakeIndex){
   var barriers = this.walls;
   for(var i = 0; i < this.snakes.length; i++){
-    barriers.concat(this.snakes[i].getBody());
+    if(i !== snakeIndex){
+      barriers = barriers.concat(this.snakes[i].getBody());
+    }
   }
   return barriers;
 }
 
-Gameboard.prototype.dropStars = function(x ,y) {
+
+Gameboard.prototype.dropStars = function() {
 
   function generateRandomLocation() {
     return [Math.floor(Math.random()*this.sizeX), Math.floor(Math.random()*this.sizeY)]
@@ -140,12 +167,12 @@ Gameboard.prototype.dropStars = function(x ,y) {
     return false;
   }*/
 
-  var checkLocations = this.snakes.concat(this.walls).concat(this.stars);
+  var checkLocations = this.getSnakes().concat(this.getItemLocs());
   do{
     var tempLocation = generateRandomLocation.call(this);
   } while (this.checkCollision(tempLocation, checkLocations));
 
-  this.stars.push(tempLocation)
+  this.items.push({type: 'star', location: tempLocation});
 
 };
 

@@ -1,23 +1,22 @@
 var Snake = function (headX, headY, InitialDirection, initLength) {
   this.currDir = InitialDirection;
-  this.length = initLength-1;
   this.body = [ [headX,headY] ];
-  this.init();
+  this.dead = false;
+  this.init(initLength);
+  this.ateStar = false;
 };
 
-Snake.prototype.init = function() {
+Snake.prototype.init = function(initLength) {
 //add the tail for the beginning of the game
-  var initSize = this.length;
-
-
+ 
   var headDir = this.dirArray();
-  for (var i = 1; i <= initSize; i++) {
+  for (var i = 1; i <= initLength; i++) {
     this.body.push([this.body[0][0] + (headDir[0] * -i), this.body[0][1] + (headDir[1] * -i)])
   }
 };
 
 Snake.prototype.dirArray = function() {
-    var headDir = {
+  var headDir = {
     up: [0, -1],
     down: [ 0, 1 ],
     left: [ -1, 0 ],
@@ -47,14 +46,26 @@ Snake.prototype.getDirection = function () {
   return this.currDir;
 };
 
+Snake.prototype.killSnake = function () {
+  this.body = [];
+  this.dead = true;
+}
+
 Snake.prototype.move = function(eat) {
-//eat is a boolean that is true if the player has just eaten an apple
+//ateStar is a boolean that is true if the player has just eaten an star  
   var headDir = this.dirArray();
   var head = this.body[0];
   this.body.unshift([head[0] + headDir[0], head[1] + headDir[1]]);
-  if(!eat){
+
+  if(!this.ateStar){
     this.body.pop();
+  } else {
+    //this could be refactored to a generic 'eatItem' function that takes an item type
+    this.ateStar = false;
   }
+
+
+
 };
 
 module.exports = Snake;

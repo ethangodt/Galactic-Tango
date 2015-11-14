@@ -46,13 +46,13 @@
   };
 
   app.Board.prototype.initialRender = function(){
-    for(var row = 0; row < this.height; row++){
+    /*for(var row = 0; row < this.height; row++){
       for(var col = 0; col < this.width; col++){
         //if((row + col) % 2){
         //  this.updateSquare([col,row], 'grey');
         //}
       }
-    }
+    }*/
   };
 
   app.Board.prototype.updateSnake = function(snakeLocation, color){ 
@@ -73,16 +73,18 @@
         this.updateSnake(snake.location, this.snakeColors[snake.id]);  
       }, this);
       
-      if(gameObject.stars){
-        gameObject.stars.forEach(function(star){
-          this.updateStar(star.location);  
+      if(gameObject.items){
+        gameObject.items.forEach(function(item){
+          if(item.type === 'star'){
+            this.updateItem(item.location, 'yellow');
+          } 
         }, this);
       }
     }
   };
 
-  app.Board.prototype.updateStar = function(location){
-    this.updateSquare(location, 'yellow');
+  app.Board.prototype.updateItem = function(location, color){
+    this.updateSquare(location, color);
   };
 
 })(window.app);

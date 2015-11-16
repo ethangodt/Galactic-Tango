@@ -4,4 +4,4 @@ module.exports = {
   loopSpeed: 50,
   boardDimensions: [105, 58],
   starAdder: 2
-
+};

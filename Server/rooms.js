@@ -16,6 +16,7 @@ var Room = function () {
 var currentRoomName = null;
 
 var roomsManager = {
+
   getRoom: function (roomName) {
     return rooms[roomName];
   },
@@ -26,6 +27,7 @@ var roomsManager = {
     for (var i = 0; i < room.players.length; i++) {
       io.to(room.players[i]).emit('gameStart', i);
     }
+    rooms.getRoom(currentRoomName).gameInProgress = true;
     gameLoop(currentRoomName, this); // 2nd param is passing a reference to the room manager for the gameLoop
   },
 
@@ -38,7 +40,6 @@ var roomsManager = {
     socket.room = currentRoomName;
     socket.join(currentRoomName);
     rooms[currentRoomName].players.push(socket.id);
-
     console.log('Current room has ' + rooms[currentRoomName].players.length + ' players');
 
     if(rooms[currentRoomName].players.length === settings.maxSnakes){
@@ -59,7 +60,7 @@ var roomsManager = {
       })
     }
   },
-  
+
   getPlayerIndex: function (socket) {
     return this.getRoom(socket.room).players.indexOf(socket.id);
   }

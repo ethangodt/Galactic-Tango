@@ -98,16 +98,41 @@ h1.logo {
   font-family: american_captainregular, sans-serif;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
 
-button {
+button.init {
   float: right;
+  cursor: pointer;
   margin-top: 7px;
-  background-color: #2e3192;
   padding: 15px 40px;
   font-family: american_captainregular, sans-serif;
   font-size: 22px;
   letter-spacing: 4px;
   color: white;
-  outline: none; }
+  outline: none;
+  flex: 1 1 auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: .3s;
+  border: 1px solid white; }
+  button.init:after {
+    position: absolute;
+    transition: .3s;
+    content: '';
+    width: 0;
+    bottom: 0;
+    background: #f7f7f7;
+    height: 120%;
+    left: -10%;
+    transform: skewX(15deg);
+    z-index: -1; }
+  button.init:hover {
+    color: #5bcaff; }
+    button.init:hover:after {
+      width: 100%;
+      left: 0; }
+    button.init:hover:after {
+      left: -10%;
+      width: 120%; }
 
 #gameOver {
   color: white;

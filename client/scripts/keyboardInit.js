@@ -6,7 +6,10 @@
   };
 
   window.addEventListener('keydown', function(event) {
-    event.preventDefault();
+
+    if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
+      event.preventDefault();
+    }
 
     switch (event.keyCode) {
       case 37: // Left

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Board.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="Board.html">
+                  Board.js
+                </a>
+              
+                
+                <a class="source" href="app.html">
+                  app.js
+                </a>
+              
+                
+                <a class="source" href="boardInit.html">
+                  boardInit.js
+                </a>
+              
+                
+                <a class="source" href="buttonInit.html">
+                  buttonInit.js
+                </a>
+              
+                
+                <a class="source" href="keyboardInit.html">
+                  keyboardInit.js
+                </a>
+              
+                
+                <a class="source" href="socketLogic.html">
+                  socketLogic.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Board.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">app</span>) </span>{ 
+<span class="hljs-pi">  'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Board constructor initializes a board based on width and height in pixels. Needs a reference to the DOMs canvas element.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  app.Board = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">width, height, canvas</span>)</span>{
+
+    <span class="hljs-keyword">this</span>.canvas = canvas;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>pixels defines the number of pixels along each side of a game square.  Changing this parameter will break the game
+as written.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.pixels = <span class="hljs-number">10</span>;
+
+    <span class="hljs-keyword">this</span>.width = <span class="hljs-built_in">Math</span>.floor(width / <span class="hljs-keyword">this</span>.pixels);
+    <span class="hljs-keyword">this</span>.height = <span class="hljs-built_in">Math</span>.floor(height / <span class="hljs-keyword">this</span>.pixels);
+
+    <span class="hljs-keyword">this</span>.canvas.setAttribute(<span class="hljs-string">'width'</span>, width);
+    <span class="hljs-keyword">this</span>.canvas.setAttribute(<span class="hljs-string">'height'</span>, height);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>most rendering on a canvas element are performed on its context</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.canvasContext = <span class="hljs-keyword">this</span>.canvas.getContext(<span class="hljs-string">'2d'</span>);
+    <span class="hljs-keyword">this</span>.snakeColors = [<span class="hljs-string">'red'</span>, <span class="hljs-string">'blue'</span>, <span class="hljs-string">'green'</span>, <span class="hljs-string">'purple'</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Clear the current board</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">this</span>.updateBoard();
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Board.updateSquare: given a location tuple and a color, fill that square in.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  app.Board.prototype.updateSquare = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">square, color</span>)</span>{
+    <span class="hljs-keyword">this</span>.clearSquare(square);
+    <span class="hljs-keyword">this</span>.canvasContext.fillStyle = color;
+    <span class="hljs-keyword">this</span>.canvasContext.fillRect(square[<span class="hljs-number">0</span>]*<span class="hljs-keyword">this</span>.pixels, square[<span class="hljs-number">1</span>]*<span class="hljs-keyword">this</span>.pixels, <span class="hljs-keyword">this</span>.pixels, <span class="hljs-keyword">this</span>.pixels);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Board.clearSquare: clear a square</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  app.Board.prototype.clearSquare = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">square</span>)</span>{
+    <span class="hljs-keyword">this</span>.canvasContext.fillStyle = <span class="hljs-string">"rgba(0,0,0,1)"</span>; <span class="hljs-comment">//an empty square is translucent black</span>
+    <span class="hljs-keyword">this</span>.canvasContext.fillRect(square[<span class="hljs-number">0</span>]*<span class="hljs-keyword">this</span>.pixels, square[<span class="hljs-number">1</span>]*<span class="hljs-keyword">this</span>.pixels, <span class="hljs-keyword">this</span>.pixels, <span class="hljs-keyword">this</span>.pixels);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Given a array of tuples and a color, paint those locations</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  app.Board.prototype.updateSnake = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">snakeLocation, color</span>)</span>{ 
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; snakeLocation.length; i++){
+      <span class="hljs-keyword">this</span>.updateSquare(snakeLocation[i], color);
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>render the current game object</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  app.Board.prototype.updateBoard = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">gameObject</span>)</span>{
+    <span class="hljs-keyword">this</span>.canvasContext.clearRect(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>, <span class="hljs-keyword">this</span>.width*<span class="hljs-keyword">this</span>.pixels, <span class="hljs-keyword">this</span>.height*<span class="hljs-keyword">this</span>.pixels);
+
+    <span class="hljs-keyword">if</span>(gameObject){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>draw snakes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      gameObject.snakes.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">snake</span>)</span>{
+        <span class="hljs-keyword">this</span>.updateSnake(snake.location, <span class="hljs-keyword">this</span>.snakeColors[snake.id]);  
+      }, <span class="hljs-keyword">this</span>);
+      
+      <span class="hljs-keyword">if</span>(gameObject.items){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>draw items.  Currently only stars are supported.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        gameObject.items.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">item</span>)</span>{
+          <span class="hljs-keyword">if</span>(item.type === <span class="hljs-string">'star'</span>){
+            <span class="hljs-keyword">this</span>.updateItem(item.location, <span class="hljs-string">'yellow'</span>);
+          } 
+        }, <span class="hljs-keyword">this</span>);
+      }
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>draw an item</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  app.Board.prototype.updateItem = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">location, color</span>)</span>{
+    <span class="hljs-keyword">this</span>.updateSquare(location, color);
+  };
+
+})(<span class="hljs-built_in">window</span>.app);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -32,7 +32,7 @@ Snake.prototype.getTail = function () {
 };
 
 Snake.prototype.getHead = function () {
-  return this.body[0];
+  return this.body[0]
 };
 
 Snake.prototype.getBody = function () {

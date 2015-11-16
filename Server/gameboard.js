@@ -139,8 +139,10 @@ Gameboard.prototype.changeDir = function ( playerNum, dir ) {
 Gameboard.prototype.getBarriers = function(snakeIndex){
   var barriers = this.walls;
   for(var i = 0; i < this.snakes.length; i++){
-    if(i !== snakeIndex){
+    if(i !== snakeIndex) {
       barriers = barriers.concat(this.snakes[i].getBody());
+    } else {
+      barriers = barriers.concat(this.snakes[i].getBody().slice(1));
     }
   }
   return barriers;

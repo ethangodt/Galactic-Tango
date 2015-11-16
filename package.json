@@ -1,13 +1,44 @@
 {
-  "engines": {
-    "node": ">= 0.10.0"
+  "name": "galactic-tango",
+  "version": "0.0.1",
+  "description": "A multiplayer snake game",
+  "main": "./Server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "grunt default",
+    "start": "node Server/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Galactic-Tango/Galactic-Tango.git"
+  },
+  "keywords": [
+    "snake",
+    "game",
+    "multiplayer",
+    "hack",
+    "reactor"
+  ],
+  "author": "Adam Grimm, Andrew Vickory, Oliver Wang, Ethan Godt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Galactic-Tango/Galactic-Tango/issues"
+  },
+  "homepage": "https://github.com/Galactic-Tango/Galactic-Tango#readme",
   "devDependencies": {
     "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-contrib-qunit": "~0.5.2",
     "grunt-contrib-concat": "~0.4.0",
-    "grunt-contrib-uglify": "~0.5.0"
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-qunit": "~0.5.2",
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-contrib-watch": "~0.6.1"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "socket.io": "^1.3.7"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
   }
 }

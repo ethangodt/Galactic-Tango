@@ -1,5 +1,6 @@
 var Snake = function (headX, headY, InitialDirection, initLength, starAdder) {
   this.currDir = InitialDirection;
+  this.prevDir = this.currDir
   this.body = [ [headX,headY] ];
   this.dead = false;
   this.init(initLength);
@@ -40,7 +41,7 @@ Snake.prototype.getBody = function () {
 };
 
 Snake.prototype.setDirection = function ( direction ) {
-  if (direction !== this.oppositeDirection()){
+  if (direction !== this.oppositeDirection()) {
     this.currDir = direction;
   }
 };
@@ -53,7 +54,7 @@ Snake.prototype.oppositeDirection = function () {
     right: 'left'
   }
 
-  return opposites[this.currDir];
+  return opposites[this.prevDir];
 }
 
 Snake.prototype.getDirection = function () {
@@ -68,6 +69,7 @@ Snake.prototype.killSnake = function () {
 Snake.prototype.move = function(eat) {
 //ateStar is a boolean that is true if the player has just eaten an star  
   var headDir = this.dirArray();
+  this.prevDir = this.currDir;
   var head = this.body[0];
   this.body.unshift([head[0] + headDir[0], head[1] + headDir[1]]);
 

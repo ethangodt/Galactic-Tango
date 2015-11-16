@@ -3,6 +3,7 @@
   app.gameStart = false;
   app.userId;
   var gameOver = document.getElementById('gameOver');
+  console.log(gameOver)
 
   var readyButton = document.getElementById('readyButton');
   readyButton.pressed = false;
@@ -34,7 +35,7 @@
     gameOver.textContent = 'ALL HAIL ' + app.board.snakeColors[app.userId] + ' KING OF THE LOSERS';
     gameOver.style.display = 'block';
   };
-  var iwon = function () {
+  var iWon = function () {
     console.log('WINNER')
     gameOver.textContent = 'YOU HAVE NOMNOMNOMED AND SURVIVED'
     gameOver.style.display = 'block';
@@ -48,6 +49,7 @@
 
   var openSocket = function () {
     app.socket = io();
+
     app.socket.on('update', function (gameData) {
       setBorderColor();
       app.board.updateBoard(gameData);
@@ -56,19 +58,19 @@
       //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
       //*put them here.
     });
+
     app.socket.on('game over', function (winner) {
       console.log(winner)
       readyButton.pressed = false;
       app.gameStart = false;
       setButtonStyle();
+      console.log('derpderpderp')
       if(app.userId === winner) {
-        iwon();
+        iWon();
       } else {
-        ilost();
+        iLost();
       }
     });
-
-
 
     app.socket.on('gameStart', function (userId) {
       app.userId = userId;

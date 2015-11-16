@@ -20,15 +20,12 @@
   };
 
   readyButton.addEventListener('click', function () {
-    if(!this.pressed) {
-      if(!app.socket) {
-        //console.log('socket open');
-        openSocket();
-      } else {
-        //send a ready signal to server 
-      }
+
+    if(!this.pressed && !app.gameStart) {
+      openSocket();
       this.pressed = true;
       gameOver.style.display = 'none';
+      readyButton.textContent = 'Waiting...'
     }
 
   });
@@ -51,11 +48,13 @@
   };
 
   var openSocket = function () {
-    app.socket = io();
-
+    if(!app.socket) {
+      app.socket = io();
+    } else {
+      app.socket.io.reconnect();
+    }
     app.socket.on('update', function (gameData) {
       app.board.updateBoard(gameData);
-      app.gameStart = true;
       //might want to move this to the game start listener when we have that.
       //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
       //*put them here.
@@ -66,15 +65,18 @@
       readyButton.pressed = false;
       app.gameStart = false;
       setButtonStyle();
-      console.log('derpderpderp')
       if(app.userId === winner) {
         iWon();
       } else {
         iLost();
       }
+      app.socket.io.disconnect();
+      readyButton.textContent = 'Ready';
+
     });
 
     app.socket.on('gameStart', function (userId) {
+      gameOver.style.display = 'none';
       app.userId = userId;
       setBorderColor();
       app.board.updateBoard();

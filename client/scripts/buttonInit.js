@@ -22,6 +22,7 @@
   readyButton.addEventListener('click', function () {
 
     if(!this.pressed && !app.gameStart) {
+      app.board.updateBoard();
       openSocket();
       this.pressed = true;
       gameOver.style.display = 'none';
@@ -32,12 +33,12 @@
 
   var iLost = function () {
     console.log('LOSER');
-    gameOver.textContent = 'ALL HAIL ' + app.board.snakeColors[app.userId] + ' KING OF THE LOSERS';
+    gameOver.textContent = 'ALL HAIL ' + app.board.snakeColors[app.userId] + ', KING OF THE LOSERS!';
     gameOver.style.display = 'inline-block';
   };
   var iWon = function () {
     console.log('WINNER')
-    gameOver.textContent = 'YOU HAVE NOMNOMNOMED AND SURVIVED'
+    gameOver.textContent = '"' + app.board.snakeColors[app.userId] + '" IS VICTORIOUS! NOMNOMNOM!'
     gameOver.style.display = 'inline-block';
   };
 
@@ -50,48 +51,48 @@
   var openSocket = function () {
     if(!app.socket) {
       app.socket = io();
-    } else {
-      app.socket.io.reconnect();
-    }
-    app.socket.on('update', function (gameData) {
-      app.board.updateBoard(gameData);
-      //might want to move this to the game start listener when we have that.
-      //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
-      //*put them here.
-    });
 
-    app.socket.on('game over', function (winner) {
-      console.log(winner)
-      readyButton.pressed = false;
-      app.gameStart = false;
-      setButtonStyle();
-      if(app.userId === winner) {
-        iWon();
-      } else {
-        iLost();
-      }
-      app.socket.io.disconnect();
-      readyButton.textContent = 'Ready';
+      app.socket.on('update', function (gameData) {
+        app.board.updateBoard(gameData);
+        //might want to move this to the game start listener when we have that.
+        //We need to add listeners here for game end, starting a new game(say the second or third) and countdown
+        //*put them here.
+      });
 
-    });
-
-    app.socket.on('gameStart', function (userId) {
-      gameOver.style.display = 'none';
-      app.userId = userId;
-      setBorderColor();
-      app.board.updateBoard();
-      var counter = 4;
-      app.gameStart = true;
-      setButtonStyle();
-      readyButton.textContent = --counter;
-      var timer = setInterval(function () {
-        readyButton.textContent = --counter;
-        if(counter === 0) {
-          readyButton.textContent = 'NOM NOM NOM'
-          clearInterval(timer);
+      app.socket.on('game over', function (winner) {
+        console.log(winner)
+        readyButton.pressed = false;
+        app.gameStart = false;
+        setButtonStyle();
+        readyButton.textContent = 'Ready';
+        if(app.userId === winner) {
+          iWon();
+        } else {
+          iLost();
         }
-      }, 800);
-    });
+        // app.socket.io.disconnect();
+
+      });
+
+      app.socket.on('gameStart', function (userId) {
+        gameOver.style.display = 'none';
+        app.userId = userId;
+        setBorderColor();
+        var counter = 4;
+        app.gameStart = true;
+        setButtonStyle();
+        readyButton.textContent = --counter;
+        var timer = setInterval(function () {
+          readyButton.textContent = --counter;
+          if(counter === 0) {
+            readyButton.textContent = 'NOM NOM NOM'
+            clearInterval(timer);
+          }
+        }, 1000);
+      });
+    } else {
+      app.socket.emit('ready')
+    }
   }
 
 }(window.app));

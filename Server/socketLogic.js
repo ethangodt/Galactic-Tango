@@ -18,5 +18,9 @@ module.exports = function (socket) {
     }
   });
 
+  socket.on('ready', function () {
+    rooms.placePlayer(socket);
+  })
+
   rooms.placePlayer(socket);
 };

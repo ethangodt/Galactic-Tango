@@ -1,23 +1,25 @@
 (function (app) {
   'use strict';
-  readyButton.pressed = false; //keeps track of whether or not the button is clickable.
   app.gameStart = false; // keeps track of whether a game is currently in progress
   app.userId; // the index of the user in the snakes array
   var gameOver = document.getElementById('gameOver'); //the lose/win message div
   var readyButton = document.getElementById('readyButton');
+readyButton.pressed = false; //keeps track of whether or not the button is clickable.
 
   //sets the class of the ready button based on game state.  only the init style has been implemented
   var setButtonStyle = function () {
     if(readyButton.pressed) {
+      console.log('waiting')
       readyButton.className = 'load';
       readyButton.textContent = 'Waiting...'
-    }
-    if (app.gameStart) {
-      readyButton.className = 'game-on';
-      readyButton.textContent = 'NOM NOM NOM'
     } else {
       readyButton.className = 'init';
       readyButton.textContent = 'Ready';
+    }
+    if (app.gameStart) {
+      console.log('game on!')
+      readyButton.className = 'game-on';
+      readyButton.textContent = 'NOM NOM NOM'
     }
   };
 
@@ -29,7 +31,7 @@
       openSocket();
       this.pressed = true;
       gameOver.style.display = 'none';
-      setButtonStyle()
+      setButtonStyle();
     }
   });
 
@@ -82,7 +84,6 @@
         app.userId = userId;
         app.gameStart = true;
         setBorderColor();
-        setButtonStyle();
 
         var counter = 4;
         readyButton.textContent = --counter;
@@ -90,6 +91,7 @@
           readyButton.textContent = --counter;
           if(counter === 0) {
             clearInterval(timer);
+            setButtonStyle();
           }
         }, 1000);
       });

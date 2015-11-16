@@ -75,6 +75,17 @@ module.exports = function(grunt) {
         }
       }
     },
+    shell: {
+      deploy: {
+
+        command: 'git push heroku master',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
+      }
+    }
   });
 
   // These plugins provide necessary tasks.
@@ -84,8 +95,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-shell');
 
   // Default task.
   grunt.registerTask('default', [ 'jshint', 'concat', 'uglify','cssmin']);
+  grunt.registerTask('deploy',['default',"shell:deploy"]);
 
 };

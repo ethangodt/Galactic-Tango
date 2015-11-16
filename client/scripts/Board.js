@@ -1,4 +1,5 @@
 (function (app) { 
+  'use strict';
 
   //Board constructor initializes a board based on width and height in pixels. Needs a reference to the DOMs canvas element.
   app.Board = function(width, height, canvas){

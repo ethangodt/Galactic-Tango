@@ -18,6 +18,7 @@ io.on('connection', function (socket) {
 });
 
 
-server.listen(process.env.PORT || 8080);
-console.log('listening on ',process.env.PORT || 8080);
+
+module.exports.server.listen(process.env.PORT || 8080);
+console.log('listening on ',process.env.PORT || 8080;
 

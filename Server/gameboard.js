@@ -2,8 +2,9 @@ var Snake = require('./Snake');
 
 var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
   this.initSize = initSize || 3;
-  this.players = []; //array of current players
-  this.stars = []; //array of stars
+  this.snakes = []; //array of current snakes
+  this.items = []; //array of items
+  this.walls = [];
   this.numPlayer = numPlayer;
   this.sizeX = sizeX;
   this.sizeY = sizeY;
@@ -13,72 +14,148 @@ var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
 Gameboard.prototype.init = function() {
   var midPoint = [Math.floor(this.sizeX*.5), Math.floor(this.sizeY*.5)];
   var size = this.initSize;
+
   //offset from the middle
   var startingPosOffset = [[-size, 0], [size,0], [0, -size], [0, size]];
-  var startingDir = ['left', 'right', 'up', 'down']
+  var startingDir = ['left', 'right', 'up', 'down'];
+
   //each player starts away from the center 
   for (var i = 0; i < this.numPlayer; i++) {
-    this.players.push(new Snake( midPoint[0] + startingPosOffset[i][0] , 
+    this.snakes.push(new Snake( midPoint[0] + startingPosOffset[i][0] , 
                                  midPoint[1] + startingPosOffset[i][1], startingDir[i], this.initSize ));
   };
 
+  //define walls
+  for(var i = 0; i < this.sizeX; i++){
+    this.walls.push([i, -1]);
+    this.walls.push([i, this.sizeY]);
+  }
+  for(var i = 0; i < this.sizeY; i++){
+    this.walls.push([-1, i]);
+    this.walls.push([this.sizeX, i]);
+  }
+  this.dropStars();
+
 };
 
-Gameboard.prototype.getSnakes = function() {
-  return this.players.map(function (snake) {
-    return snake.getBody();
-  })
-};
+Gameboard.prototype.getItemLocs = function(){
+  return this.items.map(function(item){
+    return item.location;
+  }, []);
+}
 
-Gameboard.prototype.checkCollission = function() {
-  var skippedHead = false;
-  for (var i = 0; i < this.players.length; i++) {
-      var head = this.players[i].getHead()
-    for (var j = 0; j < this.players.length; j++){
-      var body = this.players[j].getBody();
-      for(var k = 0; k < body.length; k++){
-        if (i === j && k ===0){
-          continue;
-        } else if (arrayEqual(head, body[k])){
-          return i;
-        }
+Gameboard.prototype.getSnakes = function(live) {
+  if(!live) {
+    return this.snakes.map(function (snake) {
+      return snake.getBody();
+    })
+  } else {
+    return this.snakes.reduce(function (liveSnakes, snake) {
+      if(!snake.dead){
+        liveSnakes.push(snake);
       }
+      return liveSnakes;
+    }, [])
+  }
+};
+
+//loc is position to check for collisions
+//checkAgainst is an array of tuples to look for collisions
+Gameboard.prototype.checkCollision = function(loc, checkAgainst) {
+  for(var i = 0; i < checkAgainst.length; i++){
+    if(arrayEqual(loc, checkAgainst[i])){
+      return true;
     }
-  };
-  return -1;
+  }
+  return false;
 };
 
 
 
 Gameboard.prototype.tick = function() {
-
-    this.players.forEach(function (snake) {
+  this.snakes.forEach(function (snake) {
+    if(!snake.dead){
       snake.move();
-    });
+      for(var i = 0; i < this.items.length; i++){
+        if(this.checkCollision(snake.getHead(), [this.items[i].location])){
+          var itemEaten = this.items.splice(i, 1);
+          if(itemEaten[0].type === 'star'){
+            console.log('star eaten! ', JSON.stringify(itemEaten));
+            snake.ateStar = true;
+            this.dropStars();
+          }
+        }
+      }
+    }
+  }, this);
+
   var snakeLocations = this.getSnakes();
-  var snakeData = []
+  var snakeData = [];
+
   for (var i = 0; i < this.numPlayer; i++){
     snakeData.push({
       location:snakeLocations[i],
       id: i
     })
   }
-  return {
-    snakes:snakeData,
-    collission:this.checkCollission(),
-    starLocation:this.stars
+
+  var collision = false;
+  var winner = -1;
+  
+  for(var i = 0; i < this.snakes.length; i++){
+    if(!this.snakes[i].dead && this.checkCollision(this.snakes[i].getHead(), this.getBarriers(i))){
+      collision = true;
+      winner = this.killSnake(i);
     }
+  }
+
+  return {
+    snakes: snakeData,
+    winner: winner,
+    items: this.items
+  }
 };
+
+//killSnake returns the index of the winning snake if only one remains
+//otherwise, it returns -1
+Gameboard.prototype.killSnake = function (snakeIndex){
+  var deadSnakes = 0;
+  var winner = 0;
+  this.snakes[snakeIndex].killSnake();
+  for(var i = 0; i < this.snakes.length; i++){
+    winner += i;
+    if(this.snakes[i].dead){
+      winner -= i;
+      deadSnakes++;
+    }
+  }
+
+  return (deadSnakes+1 === this.numPlayer) ? winner : -1;
+
+}
 
 Gameboard.prototype.changeDir = function ( playerNum, dir ) {
-  this.players[playerNum].setDirection(dir);
+  this.snakes[playerNum].setDirection(dir);
 };
 
-Gameboard.prototype.dropStars = function(x ,y) {
+Gameboard.prototype.getBarriers = function(snakeIndex){
+  var barriers = this.walls;
+  for(var i = 0; i < this.snakes.length; i++){
+    if(i !== snakeIndex){
+      barriers = barriers.concat(this.snakes[i].getBody());
+    }
+  }
+  return barriers;
+}
+
+
+Gameboard.prototype.dropStars = function() {
+
   function generateRandomLocation() {
     return [Math.floor(Math.random()*this.sizeX), Math.floor(Math.random()*this.sizeY)]
   }
-  function checkForCollision (location) {
+
+  /*function checkForCollision (location) {
     var unavailableBlocks = this.getSnakes().reduce(function (blocks, snake) {
         return blocks.concat(snake);
     });
@@ -88,12 +165,14 @@ Gameboard.prototype.dropStars = function(x ,y) {
       }
     }
     return false;
-  }
+  }*/
+
+  var checkLocations = this.getSnakes().concat(this.getItemLocs());
   do{
     var tempLocation = generateRandomLocation.call(this);
-  } while (checkForCollision.call(this,tempLocation));
+  } while (this.checkCollision(tempLocation, checkLocations));
 
-  this.stars.push(tempLocation)
+  this.items.push({type: 'star', location: tempLocation});
 
 };
 
@@ -106,7 +185,7 @@ function arrayEqual (arr1, arr2) {
 function test(gameboard) {
   //used for dev testing
   console.log(gameboard.tick());
-  console.log(gameboard.checkCollission());
+  console.log(gameboard.checkCollision());
   console.log('current snakes', gameboard.getSnakes());
 }
 

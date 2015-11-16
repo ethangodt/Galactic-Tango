@@ -1,6 +1,6 @@
 module.exports = {
-  maxSnakes: 1,
-  snakeStartLength: 15,
-  loopSpeed: 80,
+  maxSnakes: 2,
+  snakeStartLength: 10,
+  loopSpeed: 50,
   boardDimensions: [105, 58]
 };

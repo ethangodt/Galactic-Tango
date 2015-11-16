@@ -11,10 +11,10 @@ module.exports = function (roomName, rooms) {
       var gameData = rooms.getRoom(roomName).game.tick();
       io.to(roomName).emit('update', gameData);
 
-      // todo end up deleting this for production
-      if (gameData.collission !== -1){
+      if (gameData.winner !== -1){
+        io.to(roomName).emit('game over', gameData.winner);
         clearInterval(timer);
       }
     }, settings.loopSpeed);
-  }, 3000);
-};
+  });
+}

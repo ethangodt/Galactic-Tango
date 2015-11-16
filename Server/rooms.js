@@ -27,7 +27,7 @@ var roomsManager = {
     for (var i = 0; i < room.players.length; i++) {
       io.to(room.players[i]).emit('gameStart', i);
     }
-    rooms.getRoom(currentRoomName).gameInProgress = true;
+    this.getRoom(currentRoomName).gameInProgress = true;
     gameLoop(currentRoomName, this); // 2nd param is passing a reference to the room manager for the gameLoop
   },
 

@@ -98,7 +98,7 @@ h1.logo {
   font-family: american_captainregular, sans-serif;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
 
-button.init {
+button {
   float: right;
   cursor: pointer;
   margin-top: 7px;
@@ -114,7 +114,7 @@ button.init {
   overflow: hidden;
   transition: .3s;
   border: 1px solid white; }
-  button.init:after {
+  button:after {
     position: absolute;
     transition: .3s;
     content: '';
@@ -125,14 +125,15 @@ button.init {
     left: -10%;
     transform: skewX(15deg);
     z-index: -1; }
-  button.init:hover {
-    color: #5bcaff; }
-    button.init:hover:after {
-      width: 100%;
-      left: 0; }
-    button.init:hover:after {
-      left: -10%;
-      width: 120%; }
+
+button.init:hover {
+  color: #5bcaff; }
+  button.init:hover:after {
+    width: 100%;
+    left: 0; }
+  button.init:hover:after {
+    left: -10%;
+    width: 120%; }
 
 #gameOver {
   color: white;

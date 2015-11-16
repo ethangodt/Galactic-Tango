@@ -10,20 +10,7 @@ h1.logo {
 	text-shadow: 0 0 10px rgba(255, 255, 255, .3);
 }
 
-
-button.pre-click {
-
-}
-
-button.load {
-
-}
-
-button.game-on {
-
-}
-
-button.init {
+button {
 	float: right;
 	cursor: pointer;
 	margin-top: 7px;
@@ -52,7 +39,18 @@ button.init {
 		transform: skewX(15deg);
 		z-index: -1;
 	}
+}
 
+
+button.load {
+
+}
+
+button.game-on {
+
+}
+
+button.init {
 	&:hover {
 		color: #5bcaff;
 

@@ -3,7 +3,7 @@
   app.gameStart = false;
   app.userId;
   var gameOver = document.getElementById('gameOver');
-  console.log(gameOver)
+  console.log(gameOver);
 
   var readyButton = document.getElementById('readyButton');
   readyButton.pressed = false;
@@ -15,12 +15,14 @@
     if (app.gameStart) {
       readyButton.className = 'game-on';
     } else {
-      readyButton.className = 'pre-click';
+      readyButton.className = 'init';
     }
-  }
+  };
+
   readyButton.addEventListener('click', function () {
     if(!this.pressed) {
       if(!app.socket) {
+        console.log('socket open');
         openSocket();
       } else {
         //send a ready signal to server 
@@ -45,7 +47,7 @@
     var color = app.board.snakeColors[app.userId];
     var board = document.getElementsByClassName('boardContainer')[0];
     board.style.borderColor = color;
-  }
+  };
 
   var openSocket = function () {
     app.socket = io();

@@ -37,7 +37,7 @@ Snake.prototype.getTail = function () {
 
 // Snake.getHead returns a tuple representing the head of the snake
 Snake.prototype.getHead = function () {
-  return this.body[0]
+  return this.body[0];
 };
 
 // Snake.getTail returns an array of tuples defining all positions of the snake, including the head.

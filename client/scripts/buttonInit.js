@@ -9,17 +9,17 @@
   //sets the class of the ready button based on game state.  only the init style has been implemented
   var setButtonStyle = function () {
     if(readyButton.pressed) {
-      console.log('waiting')
+      console.log('waiting');
       readyButton.className = 'load';
-      readyButton.textContent = 'Waiting...'
+      readyButton.textContent = 'Waiting...';
     } else {
       readyButton.className = 'init';
       readyButton.textContent = 'Ready';
     }
     if (app.gameStart) {
-      console.log('game on!')
+      console.log('game on!');
       readyButton.className = 'game-on';
-      readyButton.textContent = 'NOM NOM NOM'
+      readyButton.textContent = 'NOM NOM NOM';
     }
   };
 
@@ -42,7 +42,7 @@
   };
   //sets and displays the win message
   var iWon = function () {
-    gameOver.textContent = '"' + app.board.snakeColors[app.userId] + '" IS VICTORIOUS! NOMNOMNOM!'
+    gameOver.textContent = '"' + app.board.snakeColors[app.userId] + '" IS VICTORIOUS! NOMNOMNOM!';
     gameOver.style.display = 'inline-block';
   };
 
@@ -57,7 +57,11 @@
   //to the server to be put in a new room.
   var openSocket = function () {
     if(!app.socket) {
+      // Code here will be linted with JSHint.
+      /* jshint ignore:start */
+      // Code here will be ignored by JSHint.
       app.socket = io();
+      /* jshint ignore:end */
       //updates the game board when the server tells it to
       app.socket.on('update', function (gameData) {
         app.board.updateBoard(gameData);
@@ -96,8 +100,8 @@
         }, 1000);
       });
     } else {
-      app.socket.emit('ready')
+      app.socket.emit('ready');
     }
-  }
+  };
 
 }(window.app));

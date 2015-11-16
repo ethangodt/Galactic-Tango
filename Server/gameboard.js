@@ -15,7 +15,7 @@ var Gameboard = function( numPlayer, sizeX, sizeY, initSize, starAdder ) {
 
 //Gameboard.init sets the initial position of the snakes, items, and walls
 Gameboard.prototype.init = function() {
-  var midPoint = [Math.floor(this.sizeX*.5), Math.floor(this.sizeY*.5)];
+  var midPoint = [Math.floor(this.sizeX*0.5), Math.floor(this.sizeY*0.5)];
   var size = this.initSize;
 
   //offset from the middle
@@ -26,16 +26,16 @@ Gameboard.prototype.init = function() {
   for (var i = 0; i < this.numPlayer; i++) {
     this.snakes.push(new Snake( midPoint[0] + startingPosOffset[i][0] , 
                                  midPoint[1] + startingPosOffset[i][1], startingDir[i], this.initSize, this.starAdder ));
-  };
+  }
 
   //define walls
-  for(var i = 0; i < this.sizeX; i++){
-    this.walls.push([i, -1]);
-    this.walls.push([i, this.sizeY]);
+  for(var j = 0; j < this.sizeX; j++){
+    this.walls.push([j, -1]);
+    this.walls.push([j, this.sizeY]);
   }
-  for(var i = 0; i < this.sizeY; i++){
-    this.walls.push([-1, i]);
-    this.walls.push([this.sizeX, i]);
+  for(var k = 0; k < this.sizeY; k++){
+    this.walls.push([-1, k]);
+    this.walls.push([this.sizeX, k]);
   }
   
   //number of stars is currently set to the number of players at the start of the game
@@ -47,7 +47,7 @@ Gameboard.prototype.getItemLocs = function(){
   return this.items.map(function(item){
     return item.location;
   }, []);
-}
+};
 
 //Gameboard.getSnakes returns an an array of all the snake bodies (which are arrays of tuples)
 //Can take a boolean parameter to specify if you only want snakes that are alive
@@ -55,14 +55,14 @@ Gameboard.prototype.getSnakes = function(live) {
   if(!live) {
     return this.snakes.map(function (snake) {
       return snake.getBody();
-    })
+    });
   } else {
     return this.snakes.reduce(function (liveSnakes, snake) {
       if(!snake.dead){
         liveSnakes.push(snake);
       }
       return liveSnakes;
-    }, [])
+    }, []);
   }
 };
 
@@ -103,21 +103,21 @@ Gameboard.prototype.tick = function() {
   var snakeData = [];
   
   //Create snakeData (ids and locations) for the object to send to the client
-  for (var i = 0; i < this.numPlayer; i++){
+  for (var j = 0; j < this.numPlayer; j++){
     snakeData.push({
-      location:snakeLocations[i],
-      id: i
-    })
+      location:snakeLocations[j],
+      id: j
+    });
   }
 
   var collision = false;
   var winner = -1;
   
   //check to see if any snakes ran into another snake or a wall
-  for(var i = 0; i < this.snakes.length; i++){
-    if(!this.snakes[i].dead && this.checkCollision(this.snakes[i].getHead(), this.getBarriers(i))){
+  for(var k = 0; k < this.snakes.length; k++){
+    if(!this.snakes[k].dead && this.checkCollision(this.snakes[k].getHead(), this.getBarriers(k))){
       collision = true;
-      winner = this.killSnake(i);
+      winner = this.killSnake(k);
     }
   }
 
@@ -126,7 +126,7 @@ Gameboard.prototype.tick = function() {
     snakes: snakeData,
     winner: winner,
     items: this.items
-  }
+  };  
 };
 
 //Gameboard.killSnake returns the index of the winning snake if only one remains
@@ -145,7 +145,7 @@ Gameboard.prototype.killSnake = function (snakeIndex){
   }
 
   return (deadSnakes+1 === this.numPlayer) ? winner : -1;
-}
+};
 
 //Gameboard.chageDir sets the direction of a snake
 Gameboard.prototype.changeDir = function ( playerNum, dir ) {
@@ -164,12 +164,12 @@ Gameboard.prototype.getBarriers = function(snakeIndex){
     }
   }
   return barriers;
-}
+};
 
 //Gameboard.generateRandomLocation returns a tuple representing a random location on the gameboard.
 Gameboard.prototype.generateRandomLocation = function () {
-  return [Math.floor(Math.random()*this.sizeX), Math.floor(Math.random()*this.sizeY)]
-}
+  return [Math.floor(Math.random()*this.sizeX), Math.floor(Math.random()*this.sizeY)];
+};
 
 //Gameboard.dropItems takes a number of items to drop and the type of item
 //currently, only stars are supported.  This can be expanded to include other item types. 
@@ -181,9 +181,8 @@ Gameboard.prototype.dropItems = function (numItems, type) {
     do{
       itemLocation = this.generateRandomLocation.call(this);
     } while (this.checkCollision(itemLocation, checkLocations));
-
     this.items.push({type: type, location: itemLocation});
-  };
+  }
 
 };
 
@@ -191,5 +190,5 @@ module.exports = Gameboard;
 
 //arrayEqual is a utility function to compare two tuples.
 function arrayEqual (arr1, arr2) {
-  return arr1[0] === arr2[0] && arr1[1] === arr2[1]
+  return arr1[0] === arr2[0] && arr1[1] === arr2[1];
 }

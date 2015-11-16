@@ -1,10 +1,10 @@
 (function (app) {
   'use strict';
+
   app.gameStart = false; // keeps track of whether a game is currently in progress
-  app.userId; // the index of the user in the snakes array
   var gameOver = document.getElementById('gameOver'); //the lose/win message div
   var readyButton = document.getElementById('readyButton');
-readyButton.pressed = false; //keeps track of whether or not the button is clickable.
+  readyButton.pressed = false; //keeps track of whether or not the button is clickable.
 
   //sets the class of the ready button based on game state.  only the init style has been implemented
   var setButtonStyle = function () {

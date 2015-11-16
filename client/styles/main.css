@@ -109,6 +109,15 @@ button {
   color: white;
   outline: none; }
 
+#gameOver {
+  color: white;
+  font-family: american_captainregular, sans-serif;
+  font-size: 48px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%); }
+
 .boardContainer {
   width: 100%;
   height: 582px;

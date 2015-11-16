@@ -19,15 +19,16 @@ var roomsManager = {
   getRoom: function (roomName) {
     return rooms[roomName];
   },
+
   launchGame: function () {
     var room = rooms[currentRoomName];
-    room.game = new GameBoard(settings.maxSnakes, settings.boardDimensions[0], settings.boardDimensions[1], settings.snakeStartLength);
+    room.game = new GameBoard(settings.maxSnakes, settings.boardDimensions[0], settings.boardDimensions[1], settings.snakeStartLength, settings.starAdder);
     for (var i = 0; i < room.players.length; i++) {
       io.to(room.players[i]).emit('gameStart', i);
     }
     gameLoop(currentRoomName, this); // 2nd param is passing a reference to the room manager for the gameLoop
-
   },
+
   placePlayer: function (socket) {
     if (!currentRoomName) {
       currentRoomName = utils.generateRandomId(7);
@@ -45,6 +46,7 @@ var roomsManager = {
       currentRoomName = null;
     }
   },
+
   handlePlayerDisconnect: function (socket) {
     var roomName = socket.room;
     var room = this.getRoom(roomName);
@@ -57,6 +59,7 @@ var roomsManager = {
       })
     }
   },
+  
   getPlayerIndex: function (socket) {
     return this.getRoom(socket.room).players.indexOf(socket.id);
   }

@@ -16,5 +16,5 @@ module.exports = function (roomName, rooms) {
         clearInterval(timer);
       }
     }, settings.loopSpeed);
-  });
+  }, 3000);
 }

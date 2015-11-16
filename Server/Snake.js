@@ -1,9 +1,10 @@
-var Snake = function (headX, headY, InitialDirection, initLength) {
+var Snake = function (headX, headY, InitialDirection, initLength, starAdder) {
   this.currDir = InitialDirection;
   this.body = [ [headX,headY] ];
   this.dead = false;
   this.init(initLength);
-  this.ateStar = false;
+  this.starAdder = starAdder;
+  this.ateStar = -1;
 };
 
 Snake.prototype.init = function(initLength) {
@@ -39,8 +40,21 @@ Snake.prototype.getBody = function () {
 };
 
 Snake.prototype.setDirection = function ( direction ) {
-  this.currDir = direction;
+  if (direction !== this.oppositeDirection()){
+    this.currDir = direction;
+  }
 };
+
+Snake.prototype.oppositeDirection = function () {
+  var opposites = {
+    up: 'down',
+    down: 'up',
+    left: 'right',
+    right: 'left'
+  }
+
+  return opposites[this.currDir];
+}
 
 Snake.prototype.getDirection = function () {
   return this.currDir;
@@ -57,11 +71,14 @@ Snake.prototype.move = function(eat) {
   var head = this.body[0];
   this.body.unshift([head[0] + headDir[0], head[1] + headDir[1]]);
 
-  if(!this.ateStar){
+  if(this.ateStar === -1){
     this.body.pop();
   } else {
     //this could be refactored to a generic 'eatItem' function that takes an item type
-    this.ateStar = false;
+    this.ateStar++;
+    if(this.ateStar === this.starAdder){
+      this.ateStar = -1;
+    }
   }
 
 

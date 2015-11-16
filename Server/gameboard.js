@@ -1,10 +1,11 @@
 var Snake = require('./Snake');
 
-var Gameboard = function( numPlayer, sizeX, sizeY, initSize ) {
+var Gameboard = function( numPlayer, sizeX, sizeY, initSize, starAdder ) {
   this.initSize = initSize || 3;
   this.snakes = []; //array of current snakes
   this.items = []; //array of items
   this.walls = [];
+  this.starAdder = starAdder;
   this.numPlayer = numPlayer;
   this.sizeX = sizeX;
   this.sizeY = sizeY;
@@ -22,7 +23,7 @@ Gameboard.prototype.init = function() {
   //each player starts away from the center 
   for (var i = 0; i < this.numPlayer; i++) {
     this.snakes.push(new Snake( midPoint[0] + startingPosOffset[i][0] , 
-                                 midPoint[1] + startingPosOffset[i][1], startingDir[i], this.initSize ));
+                                 midPoint[1] + startingPosOffset[i][1], startingDir[i], this.initSize, this.starAdder ));
   };
 
   //define walls
@@ -34,8 +35,8 @@ Gameboard.prototype.init = function() {
     this.walls.push([-1, i]);
     this.walls.push([this.sizeX, i]);
   }
-  this.dropStars();
 
+  this.dropItems(this.numPlayer, 'star');
 };
 
 Gameboard.prototype.getItemLocs = function(){
@@ -60,7 +61,7 @@ Gameboard.prototype.getSnakes = function(live) {
 };
 
 //loc is position to check for collisions
-//checkAgainst is an array of tuples to look for collisions
+//checkAgainst is an array of tuples to compare against
 Gameboard.prototype.checkCollision = function(loc, checkAgainst) {
   for(var i = 0; i < checkAgainst.length; i++){
     if(arrayEqual(loc, checkAgainst[i])){
@@ -71,7 +72,6 @@ Gameboard.prototype.checkCollision = function(loc, checkAgainst) {
 };
 
 
-
 Gameboard.prototype.tick = function() {
   this.snakes.forEach(function (snake) {
     if(!snake.dead){
@@ -80,9 +80,8 @@ Gameboard.prototype.tick = function() {
         if(this.checkCollision(snake.getHead(), [this.items[i].location])){
           var itemEaten = this.items.splice(i, 1);
           if(itemEaten[0].type === 'star'){
-            console.log('star eaten! ', JSON.stringify(itemEaten));
-            snake.ateStar = true;
-            this.dropStars();
+            snake.ateStar = 0;
+            this.dropItems(1, 'star');
           }
         }
       }
@@ -131,7 +130,6 @@ Gameboard.prototype.killSnake = function (snakeIndex){
   }
 
   return (deadSnakes+1 === this.numPlayer) ? winner : -1;
-
 }
 
 Gameboard.prototype.changeDir = function ( playerNum, dir ) {
@@ -148,31 +146,21 @@ Gameboard.prototype.getBarriers = function(snakeIndex){
   return barriers;
 }
 
+Gameboard.prototype.generateRandomLocation = function () {
+  return [Math.floor(Math.random()*this.sizeX), Math.floor(Math.random()*this.sizeY)]
+}
 
-Gameboard.prototype.dropStars = function() {
+Gameboard.prototype.dropItems = function (numItems, type) {
+  var itemLocation, checkLocations;
 
-  function generateRandomLocation() {
-    return [Math.floor(Math.random()*this.sizeX), Math.floor(Math.random()*this.sizeY)]
-  }
+  for(var i = 0; i < numItems; i++){
+    checkLocations = this.getSnakes().concat(this.getItemLocs());
+    do{
+      itemLocation = this.generateRandomLocation.call(this);
+    } while (this.checkCollision(itemLocation, checkLocations));
 
-  /*function checkForCollision (location) {
-    var unavailableBlocks = this.getSnakes().reduce(function (blocks, snake) {
-        return blocks.concat(snake);
-    });
-    for (var i = unavailableBlocks.length - 1; i >= 0; i--) {
-      if (arrayEqual(unavailableBlocks[i],location)){
-        return true;
-      }
-    }
-    return false;
-  }*/
-
-  var checkLocations = this.getSnakes().concat(this.getItemLocs());
-  do{
-    var tempLocation = generateRandomLocation.call(this);
-  } while (this.checkCollision(tempLocation, checkLocations));
-
-  this.items.push({type: 'star', location: tempLocation});
+    this.items.push({type: type, location: itemLocation});
+  };
 
 };
 
@@ -189,8 +177,6 @@ function test(gameboard) {
   console.log('current snakes', gameboard.getSnakes());
 }
 
-// var gameboard = new Gameboard(2,20,20,5);
-// // gameboard.dropStars()
 
 
 

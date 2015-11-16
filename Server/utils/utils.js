@@ -1,4 +1,4 @@
-// we should consider using the socket id instead
+//generate a random ID to use as a room name
 var generateRandomId = function (length) {
   var id = "";
   var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

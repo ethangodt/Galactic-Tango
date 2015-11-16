@@ -33,12 +33,12 @@
   var iLost = function () {
     console.log('LOSER');
     gameOver.textContent = 'ALL HAIL ' + app.board.snakeColors[app.userId] + ' KING OF THE LOSERS';
-    gameOver.style.display = 'block';
+    gameOver.style.display = 'inline-block';
   };
   var iWon = function () {
     console.log('WINNER')
     gameOver.textContent = 'YOU HAVE NOMNOMNOMED AND SURVIVED'
-    gameOver.style.display = 'block';
+    gameOver.style.display = 'inline-block';
   };
 
   var setBorderColor = function () {
@@ -51,7 +51,6 @@
     app.socket = io();
 
     app.socket.on('update', function (gameData) {
-      setBorderColor();
       app.board.updateBoard(gameData);
       app.gameStart = true;
       //might want to move this to the game start listener when we have that.

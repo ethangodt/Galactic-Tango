@@ -19,7 +19,7 @@ Snakes... in space!!! Four players battle in a fast-paced game of snake.  Multip
 
 ## Usage
 
-This probject is deployed at the https://protected-bastion-6370.herokuapp.com/
+This probject is deployed at https://protected-bastion-6370.herokuapp.com/
 
 To host a local server, simple run node ./Server/server.js.  The server is currently configured to listen on port 8080.
 

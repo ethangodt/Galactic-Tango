@@ -3,7 +3,7 @@
 //and the game board associated with that room
 
 //'rooms' is an object that contains as many instances of 'Room' as there are games.
-//The key for each 'Room' in the 'room' object is the randomly generated room ID. 
+//The key for each 'Room' in the 'rooms' object is the randomly generated room ID. 
 
 //There is also a '.room' property on the socket.  This is used to quickly identify which room to access when an 
 //event comes through a given socket.  

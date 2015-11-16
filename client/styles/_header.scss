@@ -12,26 +12,58 @@ h1.logo {
 
 button {
 	float: right;
+	cursor: pointer;
 	margin-top: 7px;
-	background-color: #2e3192;
 	padding: 15px 40px;
 	font-family: american_captainregular, sans-serif;
 	font-size: 22px;
 	letter-spacing: 4px;
 	color: white;
 	outline: none;
+	flex: 1 1 auto;
+	text-align: center;
+	position: relative;
+	overflow: hidden;
+	transition: .3s;
+	border: 1px solid white;
+
+	&:after {
+		position: absolute;
+		transition: .3s;
+		content: '';
+		width: 0;
+		bottom: 0;
+		background: #f7f7f7;
+		height: 120%;
+		left: -10%;
+		transform: skewX(15deg);
+		z-index: -1;
+	}
 }
 
-button.pre-click {
-
-}
 
 button.load {
-	
+
 }
 
 button.game-on {
-	
+
+}
+
+button.init {
+	&:hover {
+		color: #5bcaff;
+
+		&:after {
+			width: 100%;
+			left: 0;
+		}
+
+		&:after {
+			left: -10%;
+			width: 120%;
+		}
+	}
 }
 
 #gameOver {
@@ -43,3 +75,15 @@ button.game-on {
   left: 50%;
   transform: translate(-50%, 50%);
 }
+
+//button.loading {
+//	float: right;
+//	cursor: pointer;
+//	margin-top: 7px;
+//	padding: 15px 40px;
+//	font-family: american_captainregular, sans-serif;
+//	font-size: 22px;
+//	letter-spacing: 4px;
+//	outline: none;
+//	background-color: linear-gradient(120deg, #6559ae, #ff7159, #6559ae);
+//}

@@ -1,4 +1,4 @@
-//generate a random ID to use as a room name
+//generateRandomId generates a random string with length defined as an argument to use as a room name.  
 var generateRandomId = function (length) {
   var id = "";
   var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

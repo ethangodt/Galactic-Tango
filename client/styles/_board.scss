@@ -5,3 +5,13 @@
 	border: solid 1px #ffc046;
 	background: rgba(55, 55, 55, .33);
 }
+
+#gameOver {
+  color:white;
+  font-family: american_captainregular, sans-serif;
+  font-size: 48px;
+  position: absolute;
+  top: 410px;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}

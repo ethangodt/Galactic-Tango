@@ -78,7 +78,7 @@ var roomsManager = {
       //remove a player from the room if the game has not started.
       room.players = room.players.filter(function(player) {
         return player !== socket.id;
-      })
+      });
     }
   },
 

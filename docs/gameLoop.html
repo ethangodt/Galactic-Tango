@@ -34,8 +34,9 @@
 <span class="hljs-keyword">var</span> io = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./server.js'</span>).io;
 
 <span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">roomName, rooms</span>) </span>{
-&lt;&lt;<span class="xml"><span class="hljs-tag">&lt;&lt;&lt;&lt;&lt; <span class="hljs-attribute">HEAD</span>
-</span></span></pre></div></div>
+  setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>{ <span class="hljs-comment">// delays the gameLoop for a three second countdown on the client side</span>
+
+    <span class="hljs-keyword">var</span> timer = setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// set interval is actual game loop</span></pre></div></div>
             
         </li>
         
@@ -46,16 +47,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>delay the gameLoop for a three second countdown on the client side</p>
+              <p>where is this placed?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>{
-    <span class="hljs-keyword">var</span> timer = setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ 
-=======
-  setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)</span>{ <span class="hljs-comment">// delays the gameLoop for a three second countdown on the client side</span>
-
-    <span class="hljs-keyword">var</span> timer = setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// set interval is actual game loop</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> gameData = rooms.getRoom(roomName).game.tick();
+      io.to(roomName).emit(<span class="hljs-string">'update'</span>, gameData);</pre></div></div>
             
         </li>
         
@@ -65,23 +62,6 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>where is this placed?</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>&gt;&gt;&gt;&gt;&gt;&gt;&gt; Style changes and about page layout.
-      <span class="hljs-keyword">var</span> gameData = rooms.getRoom(roomName).game.tick();
-      io.to(roomName).emit(<span class="hljs-string">'update'</span>, gameData);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>gameData.winner is -1 when the game is not over.  Otherwise it is equal to the index of the winner.</p>
 

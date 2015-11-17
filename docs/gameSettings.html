@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>gameSettings.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="Snake.html">
+                  Snake.js
+                </a>
+              
+                
+                <a class="source" href="gameLoop.html">
+                  gameLoop.js
+                </a>
+              
+                
+                <a class="source" href="gameSettings.html">
+                  gameSettings.js
+                </a>
+              
+                
+                <a class="source" href="gameboard.html">
+                  gameboard.js
+                </a>
+              
+                
+                <a class="source" href="rooms.html">
+                  rooms.js
+                </a>
+              
+                
+                <a class="source" href="server.html">
+                  server.js
+                </a>
+              
+                
+                <a class="source" href="socketLogic.html">
+                  socketLogic.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>gameSettings.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>This file holds the game settings.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">module</span>.exports = {
+  maxSnakes: <span class="hljs-number">2</span>, <span class="hljs-comment">//number of players to start the game</span>
+  snakeStartLength: <span class="hljs-number">10</span>, <span class="hljs-comment">//initial length of snakes</span>
+  loopSpeed: <span class="hljs-number">50</span>, <span class="hljs-comment">//number of milliseconds between each game update</span>
+  boardDimensions: [<span class="hljs-number">105</span>, <span class="hljs-number">58</span>], <span class="hljs-comment">//size of the board, in game squares (not pixels)</span>
+  starAdder: <span class="hljs-number">3</span> <span class="hljs-comment">//amount of body added to a snake when a star is eaten.</span>
+};</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

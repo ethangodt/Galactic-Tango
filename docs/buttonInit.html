@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>buttonInit.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="Board.html">
+                  Board.js
+                </a>
+              
+                
+                <a class="source" href="app.html">
+                  app.js
+                </a>
+              
+                
+                <a class="source" href="boardInit.html">
+                  boardInit.js
+                </a>
+              
+                
+                <a class="source" href="buttonInit.html">
+                  buttonInit.js
+                </a>
+              
+                
+                <a class="source" href="keyboardInit.html">
+                  keyboardInit.js
+                </a>
+              
+                
+                <a class="source" href="socketLogic.html">
+                  socketLogic.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>buttonInit.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">app</span>) </span>{
+<span class="hljs-pi">  'use strict'</span>;
+
+  app.gameStart = <span class="hljs-literal">false</span>; <span class="hljs-comment">// keeps track of whether a game is currently in progress</span>
+  <span class="hljs-keyword">var</span> gameOver = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'gameOver'</span>); <span class="hljs-comment">//the lose/win message div</span>
+  <span class="hljs-keyword">var</span> readyButton = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'readyButton'</span>);
+  readyButton.pressed = <span class="hljs-literal">false</span>; <span class="hljs-comment">//keeps track of whether or not the button is clickable.</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>sets the class of the ready button based on game state.  only the init style has been implemented</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> setButtonStyle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span>(readyButton.pressed) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'waiting'</span>)
+      readyButton.className = <span class="hljs-string">'load'</span>;
+      readyButton.textContent = <span class="hljs-string">'Waiting...'</span>
+    } <span class="hljs-keyword">else</span> {
+      readyButton.className = <span class="hljs-string">'init'</span>;
+      readyButton.textContent = <span class="hljs-string">'Ready'</span>;
+    }
+    <span class="hljs-keyword">if</span> (app.gameStart) {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'game on!'</span>)
+      readyButton.className = <span class="hljs-string">'game-on'</span>;
+      readyButton.textContent = <span class="hljs-string">'NOM NOM NOM'</span>
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>checks if the button has been pressed or a game has started.  if it hasn’t then it opens the socket and
+resets the board, gets rid of the win/lose message, sets the button text to ‘Waiting…’</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  readyButton.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.pressed &amp;&amp; !app.gameStart) {
+      app.board.updateBoard();
+      openSocket();
+      <span class="hljs-keyword">this</span>.pressed = <span class="hljs-literal">true</span>;
+      gameOver.style.display = <span class="hljs-string">'none'</span>;
+      setButtonStyle();
+    }
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>sets and displays the lose message</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> iLost = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    gameOver.textContent = <span class="hljs-string">'ALL HAIL '</span> + app.board.snakeColors[app.userId] + <span class="hljs-string">', KING OF THE LOSERS!'</span>;
+    gameOver.style.display = <span class="hljs-string">'inline-block'</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>sets and displays the win message</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> iWon = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    gameOver.textContent = <span class="hljs-string">'"'</span> + app.board.snakeColors[app.userId] + <span class="hljs-string">'" IS VICTORIOUS! NOMNOMNOM!'</span>
+    gameOver.style.display = <span class="hljs-string">'inline-block'</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>sets the border color or the board based on the userId</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> setBorderColor = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> color = app.board.snakeColors[app.userId];
+    <span class="hljs-keyword">var</span> board = <span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">'boardContainer'</span>)[<span class="hljs-number">0</span>];
+    board.style.borderColor = color;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>if a socket hasn’t been opened, it opens one and attaches listeners, otherwise it emits a ‘ready’ signal
+to the server to be put in a new room.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> openSocket = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span>(!app.socket) {
+      app.socket = io();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>updates the game board when the server tells it to</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      app.socket.on(<span class="hljs-string">'update'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">gameData</span>) </span>{
+        app.board.updateBoard(gameData);
+      });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>resets button and state variables on ‘game over’ signal, displays win/lose message.  It leaves the board
+as it was at the end of the game.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      app.socket.on(<span class="hljs-string">'game over'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">winner</span>) </span>{
+        readyButton.pressed = <span class="hljs-literal">false</span>;
+        app.gameStart = <span class="hljs-literal">false</span>;
+
+        setButtonStyle();
+        <span class="hljs-keyword">if</span>(app.userId === winner) {
+          iWon();
+        } <span class="hljs-keyword">else</span> {
+          iLost();
+        }
+      });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>on ‘gameStart’ signal starts a countdown in the ready button.  removes the win/lose message, changes the 
+border color, sets gameStart to true.  Sets the button to gameMode.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      app.socket.on(<span class="hljs-string">'gameStart'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">userId</span>) </span>{
+        gameOver.style.display = <span class="hljs-string">'none'</span>;
+        app.userId = userId;
+        app.gameStart = <span class="hljs-literal">true</span>;
+        setBorderColor();
+
+        <span class="hljs-keyword">var</span> counter = <span class="hljs-number">4</span>;
+        readyButton.textContent = --counter;
+        <span class="hljs-keyword">var</span> timer = setInterval(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+          readyButton.textContent = --counter;
+          <span class="hljs-keyword">if</span>(counter === <span class="hljs-number">0</span>) {
+            clearInterval(timer);
+            setButtonStyle();
+          }
+        }, <span class="hljs-number">1000</span>);
+      });
+    } <span class="hljs-keyword">else</span> {
+      app.socket.emit(<span class="hljs-string">'ready'</span>)
+    }
+  }
+
+}(<span class="hljs-built_in">window</span>.app));</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

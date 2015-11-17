@@ -69,9 +69,23 @@
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (gameData.winner !== -<span class="hljs-number">1</span>){
         io.to(roomName).emit(<span class="hljs-string">'game over'</span>, gameData.winner);
-        clearInterval(timer);
-        rooms.endGame(roomName);
-      }
+        clearInterval(timer);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>endGame is near finished and is meant to delete rooms from the ‘rooms’ object at the end of the game
+rooms.endGame(roomName);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      }
     }, settings.loopSpeed);
   }, <span class="hljs-number">3000</span>);
 };</pre></div></div>

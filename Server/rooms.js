@@ -78,10 +78,14 @@ var roomsManager = {
     var roomName = socket.room;
     var room = this.getRoom(roomName);
 
-    if (room.gameInProgress) {
+    if (room && room.gameInProgress) {
       room.game.killSnake(this.getPlayerIndex(socket));
     } else {
       //remove a player from the room if the game has not started.
+      if (!room) {
+        return;
+      }
+
       room.players = room.players.filter(function(player) {
         return player !== socket.id;
       });

@@ -9,7 +9,7 @@ module.exports = function (socket) {
   //When a player tries to turn, find the right room and player and call the changeDir method in that game.
   socket.on('turn', function (data) {
     var room = rooms.getRoom(this.room);
-    if (rooms.getRoom(this.room).gameInProgress) {
+    if (room && room.gameInProgress) {
       var playerIndex = rooms.getPlayerIndex(socket);
       room.game.changeDir(playerIndex, data.direction);
     }
